@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.3.0.post363"
-version_tuple = (0, 3, 0, 363)
+version_str = "0.3.0.post368"
+version_tuple = (0, 3, 0, 368)
 try:
     from packaging.version import Version as V
-    pversion = V("0.3.0.post363")
+    pversion = V("0.3.0.post368")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.3.0.post221"
-data_version_tuple = (0, 3, 0, 221)
+data_version_str = "0.3.0.post226"
+data_version_tuple = (0, 3, 0, 226)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.3.0.post221")
+    pdata_version = V("0.3.0.post226")
 except ImportError:
     pass
-data_git_hash = "f85e7129b586302333d85316e5421a731d396940"
-data_git_describe = "0.3.0-221-gf85e7129"
+data_git_hash = "44dc900af60d123ec47305697a940604d011291c"
+data_git_describe = "0.3.0-226-g44dc900a"
 data_git_msg = """\
-commit f85e7129b586302333d85316e5421a731d396940
-Merge: f9e957cc 65bf5e79
+commit 44dc900af60d123ec47305697a940604d011291c
+Merge: f85e7129 c7ae092c
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri May 27 15:26:18 2022 +0200
+Date:   Tue May 31 16:14:55 2022 +0200
 
-    Merge pull request #205 from silabs-oysteink/silabs-oysteink_tbljmp-hardening
+    Merge pull request #207 from silabs-oysteink/silabs-oysteink_merge-csr-refactor
     
-    Added PC hardening for table jumps. Both the pointer fetch and the ju…
+    Silabs oysteink merge csr refactor
 
 """
 
