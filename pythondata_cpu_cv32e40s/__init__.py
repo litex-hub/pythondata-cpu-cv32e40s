@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.3.0.post368"
-version_tuple = (0, 3, 0, 368)
+version_str = "0.3.0.post370"
+version_tuple = (0, 3, 0, 370)
 try:
     from packaging.version import Version as V
-    pversion = V("0.3.0.post368")
+    pversion = V("0.3.0.post370")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.3.0.post226"
-data_version_tuple = (0, 3, 0, 226)
+data_version_str = "0.3.0.post228"
+data_version_tuple = (0, 3, 0, 228)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.3.0.post226")
+    pdata_version = V("0.3.0.post228")
 except ImportError:
     pass
-data_git_hash = "44dc900af60d123ec47305697a940604d011291c"
-data_git_describe = "0.3.0-226-g44dc900a"
+data_git_hash = "53bad81280c42516298b9cb5434f35cca6ef3bf0"
+data_git_describe = "0.3.0-228-g53bad812"
 data_git_msg = """\
-commit 44dc900af60d123ec47305697a940604d011291c
-Merge: f85e7129 c7ae092c
+commit 53bad81280c42516298b9cb5434f35cca6ef3bf0
+Merge: 44dc900a 0afef109
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue May 31 16:14:55 2022 +0200
+Date:   Tue May 31 18:55:56 2022 +0200
 
-    Merge pull request #207 from silabs-oysteink/silabs-oysteink_merge-csr-refactor
+    Merge pull request #208 from silabs-oysteink/silabs-oysteink_tbljmp-fix1
     
-    Silabs oysteink merge csr refactor
+    Dummy instructions could be marked as table jumps in the fetch stage…
 
 """
 
