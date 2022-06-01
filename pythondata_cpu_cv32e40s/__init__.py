@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.3.0.post370"
-version_tuple = (0, 3, 0, 370)
+version_str = "0.3.0.post372"
+version_tuple = (0, 3, 0, 372)
 try:
     from packaging.version import Version as V
-    pversion = V("0.3.0.post370")
+    pversion = V("0.3.0.post372")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.3.0.post228"
-data_version_tuple = (0, 3, 0, 228)
+data_version_str = "0.3.0.post230"
+data_version_tuple = (0, 3, 0, 230)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.3.0.post228")
+    pdata_version = V("0.3.0.post230")
 except ImportError:
     pass
-data_git_hash = "53bad81280c42516298b9cb5434f35cca6ef3bf0"
-data_git_describe = "0.3.0-228-g53bad812"
+data_git_hash = "9a80ba87ce22ed8d4039d7dde7e01378830a8895"
+data_git_describe = "0.3.0-230-g9a80ba87"
 data_git_msg = """\
-commit 53bad81280c42516298b9cb5434f35cca6ef3bf0
-Merge: 44dc900a 0afef109
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue May 31 18:55:56 2022 +0200
+commit 9a80ba87ce22ed8d4039d7dde7e01378830a8895
+Merge: 53bad812 cf4c866d
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Wed Jun 1 12:55:28 2022 +0200
 
-    Merge pull request #208 from silabs-oysteink/silabs-oysteink_tbljmp-fix1
+    Merge pull request #210 from Silabs-ArjanB/ArjanB_uretx
     
-    Dummy instructions could be marked as table jumps in the fetch stage…
+    Removed reference to uret
 
 """
 
