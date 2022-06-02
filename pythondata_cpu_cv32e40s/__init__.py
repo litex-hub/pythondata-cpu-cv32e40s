@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.3.0.post372"
-version_tuple = (0, 3, 0, 372)
+version_str = "0.3.0.post392"
+version_tuple = (0, 3, 0, 392)
 try:
     from packaging.version import Version as V
-    pversion = V("0.3.0.post372")
+    pversion = V("0.3.0.post392")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.3.0.post230"
-data_version_tuple = (0, 3, 0, 230)
+data_version_str = "0.3.0.post250"
+data_version_tuple = (0, 3, 0, 250)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.3.0.post230")
+    pdata_version = V("0.3.0.post250")
 except ImportError:
     pass
-data_git_hash = "9a80ba87ce22ed8d4039d7dde7e01378830a8895"
-data_git_describe = "0.3.0-230-g9a80ba87"
+data_git_hash = "9757b4230ba7f1d8e3bc2a47210878090b48974e"
+data_git_describe = "0.3.0-250-g9757b423"
 data_git_msg = """\
-commit 9a80ba87ce22ed8d4039d7dde7e01378830a8895
-Merge: 53bad812 cf4c866d
-Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Wed Jun 1 12:55:28 2022 +0200
+commit 9757b4230ba7f1d8e3bc2a47210878090b48974e
+Merge: 16ddbc77 88db3e77
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Thu Jun 2 11:57:44 2022 +0200
 
-    Merge pull request #210 from Silabs-ArjanB/ArjanB_uretx
+    Merge pull request #213 from silabs-oysteink/silabs-oysteink_mcounteren-doc
     
-    Removed reference to uret
+    Fixed description of mcounteren as that did not get properly merged in…
 
 """
 
