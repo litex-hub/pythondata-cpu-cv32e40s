@@ -711,22 +711,14 @@ Detailed:
 
   Detailed:
 
-  Each bit in the machine counter-enable register allows the associated read-only
-  unprivileged shadow performance register to be read from user mode. If the bit
-  is clear an attempt to read the register in user mode will trigger an illegal
-  instruction exception.
-
   +-------+------------+------------------------------------------------------------------+
   | Bit#  | R/W        | Description                                                      |
   +=======+============+==================================================================+
-  | 31:3  | WARL (0x0) | Hardwired to 0.                                                  |
+  | 31:0  | WARL (0x0) | Hardwired to 0.                                                  |
   +-------+------------+------------------------------------------------------------------+
-  | 2     | RW         | **IR**: ``instret`` enable for user mode.                        |
-  +-------+------------+------------------------------------------------------------------+
-  | 1     | WARL (0x0) | **TM**. Hardwired to 0.                                          |
-  +-------+------------+------------------------------------------------------------------+
-  | 0     | RW         | **CY**: ``cycle`` enable for user mode.                          |
-  +-------+------------+------------------------------------------------------------------+
+
+  .. note::
+     ``mcounteren`` is WARL (0x0) as the Zicntr and Zihpm extensions are not supported on |corev|.
 
   Machine Environment Configuration (``menvcfg``)
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1425,9 +1417,7 @@ Debug Control and Status (``dcsr``)
 
 CSR Address: 0x7B0
 
-Reset Value: 0x4000_0003
-
-
+Reset Value: 0x4000_0013
 
 Detailed:
 
@@ -1460,7 +1450,7 @@ Detailed:
 +----------+--------------+-------------------------------------------------------------------------------------------------+
 | 5        | WARL (0x0)   | **V**. Hardwired to 0.                                                                          |
 +----------+--------------+-------------------------------------------------------------------------------------------------+
-| 4        | WARL (0x0)   | **MPRVEN**. Hardwired to 0.                                                                     |
+| 4        | WARL (0x1)   | **MPRVEN**. Hardwired to 0.                                                                     |
 +----------+--------------+-------------------------------------------------------------------------------------------------+
 | 3        | R            | **NMIP**. If set, an NMI is pending                                                             |
 +----------+--------------+-------------------------------------------------------------------------------------------------+
