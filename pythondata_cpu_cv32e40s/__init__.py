@@ -20,17 +20,17 @@ try:
     pdata_version = V("0.4.0.post0")
 except ImportError:
     pass
-data_git_hash = "9757b4230ba7f1d8e3bc2a47210878090b48974e"
-data_git_describe = "0.4.0-0-g9757b423"
+data_git_hash = "55f20360d57beb8bfd5495b0c5982b33763c923e"
+data_git_describe = "0.4.0-0-g55f20360"
 data_git_msg = """\
-commit 9757b4230ba7f1d8e3bc2a47210878090b48974e
-Merge: 16ddbc77 88db3e77
+commit 55f20360d57beb8bfd5495b0c5982b33763c923e
+Merge: 39b6ffbc 48426dc5
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Thu Jun 2 11:57:44 2022 +0200
+Date:   Thu Jun 2 13:21:43 2022 +0200
 
-    Merge pull request #213 from silabs-oysteink/silabs-oysteink_mcounteren-doc
+    Merge pull request #215 from silabs-oysteink/silabs-oysteink-merge-w22-2
     
-    Fixed description of mcounteren as that did not get properly merged in…
+    Silabs oysteink merge w22 2
 
 """
 
