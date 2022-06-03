@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post144"
-version_tuple = (0, 4, 0, 144)
+version_str = "0.4.0.post146"
+version_tuple = (0, 4, 0, 146)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post144")
+    pversion = V("0.4.0.post146")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post2"
-data_version_tuple = (0, 4, 0, 2)
+data_version_str = "0.4.0.post4"
+data_version_tuple = (0, 4, 0, 4)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post2")
+    pdata_version = V("0.4.0.post4")
 except ImportError:
     pass
-data_git_hash = "ecde3080f19bf519b280c19485b6c4398812c4fe"
-data_git_describe = "0.4.0-2-gecde3080"
+data_git_hash = "44597e3c8d6663ed217e63e8a80381d6d9ceabab"
+data_git_describe = "0.4.0-4-g44597e3c"
 data_git_msg = """\
-commit ecde3080f19bf519b280c19485b6c4398812c4fe
-Merge: 55f20360 73111f11
-Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Fri Jun 3 11:24:16 2022 +0200
+commit 44597e3c8d6663ed217e63e8a80381d6d9ceabab
+Merge: ecde3080 b2be050f
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Fri Jun 3 12:59:28 2022 +0200
 
-    Merge pull request #216 from Silabs-ArjanB/ArjanB_clicu1
+    Merge pull request #217 from silabs-oysteink/silabs-oysteink_merge-w22-2
     
-    Unifying interrupt controllers; aligning cs registers syntax with cor…
+    Merge from CV32E40X
 
 """
 
