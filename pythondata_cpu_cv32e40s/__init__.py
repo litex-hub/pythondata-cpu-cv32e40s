@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post161"
-version_tuple = (0, 4, 0, 161)
+version_str = "0.4.0.post163"
+version_tuple = (0, 4, 0, 163)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post161")
+    pversion = V("0.4.0.post163")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post19"
-data_version_tuple = (0, 4, 0, 19)
+data_version_str = "0.4.0.post21"
+data_version_tuple = (0, 4, 0, 21)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post19")
+    pdata_version = V("0.4.0.post21")
 except ImportError:
     pass
-data_git_hash = "b4695ee6e75ca77e106696b42df27c80bcc53c9e"
-data_git_describe = "0.4.0-19-gb4695ee6"
+data_git_hash = "87c19b479de5dccd5173407589b75ebc04642c17"
+data_git_describe = "0.4.0-21-g87c19b47"
 data_git_msg = """\
-commit b4695ee6e75ca77e106696b42df27c80bcc53c9e
-Merge: 74a830e1 0680ce2c
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jun 7 07:52:41 2022 +0200
+commit 87c19b479de5dccd5173407589b75ebc04642c17
+Merge: b4695ee6 012736c8
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Tue Jun 7 09:26:15 2022 +0200
 
-    Merge pull request #220 from silabs-oysteink/silabs-oysteink_merge-w22-4
+    Merge pull request #221 from Silabs-ArjanB/ArjanB_profi
     
-    Merge from cv32e40x
+    Reduced profiling infrastructure. Removed support for Zihpm and Zicntr
 
 """
 
