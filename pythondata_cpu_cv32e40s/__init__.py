@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post156"
-version_tuple = (0, 4, 0, 156)
+version_str = "0.4.0.post174"
+version_tuple = (0, 4, 0, 174)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post156")
+    pversion = V("0.4.0.post174")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post14"
-data_version_tuple = (0, 4, 0, 14)
+data_version_str = "0.4.0.post32"
+data_version_tuple = (0, 4, 0, 32)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post14")
+    pdata_version = V("0.4.0.post32")
 except ImportError:
     pass
-data_git_hash = "d12bfca79a20d6b64138fd43344fe9c3797ec02f"
-data_git_describe = "0.4.0-14-gd12bfca7"
+data_git_hash = "bed221ae98e9f0c4371ce2091039877bfb8ec8dd"
+data_git_describe = "0.4.0-32-gbed221ae"
 data_git_msg = """\
-commit d12bfca79a20d6b64138fd43344fe9c3797ec02f
-Merge: 150e9241 ae2bceae
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jun 14 10:49:33 2022 +0200
+commit bed221ae98e9f0c4371ce2091039877bfb8ec8dd
+Merge: 597ae2d9 bb0cc419
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Tue Jun 14 11:32:19 2022 +0200
 
-    Merge pull request #228 from silabs-oysteink/silabs-oysteink_merge-w24-1
+    Merge pull request #229 from Silabs-ArjanB/ArjanB_stl
     
-    Cherry picked commit for addition of Smstateen CSRs from CV32E40X.
+    PMP, WARL, style updates
 
 """
 
