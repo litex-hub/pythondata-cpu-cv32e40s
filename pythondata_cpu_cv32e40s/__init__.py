@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post181"
-version_tuple = (0, 4, 0, 181)
+version_str = "0.4.0.post183"
+version_tuple = (0, 4, 0, 183)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post181")
+    pversion = V("0.4.0.post183")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post39"
-data_version_tuple = (0, 4, 0, 39)
+data_version_str = "0.4.0.post41"
+data_version_tuple = (0, 4, 0, 41)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post39")
+    pdata_version = V("0.4.0.post41")
 except ImportError:
     pass
-data_git_hash = "20f63bd87c6fe7d50d61abcef1a2867bd7d4ebb5"
-data_git_describe = "0.4.0-39-g20f63bd8"
+data_git_hash = "d2bcb55a2ce432e3108d2337c0d55c1ebeae44c6"
+data_git_describe = "0.4.0-41-gd2bcb55a"
 data_git_msg = """\
-commit 20f63bd87c6fe7d50d61abcef1a2867bd7d4ebb5
-Merge: 84eeb991 86ec0da5
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jun 14 12:51:50 2022 +0200
+commit d2bcb55a2ce432e3108d2337c0d55c1ebeae44c6
+Merge: 20f63bd8 00bc245b
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Tue Jun 14 15:55:58 2022 +0200
 
-    Merge pull request #232 from silabs-oysteink/silabs-oysteink_merge-w24-3
+    Merge pull request #233 from Silabs-ArjanB/ArjanB_dbg0
     
-    Silabs oysteink merge w24 3
+    Added dcsr.EBREAKU related explanations
 
 """
 
