@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post183"
-version_tuple = (0, 4, 0, 183)
+version_str = "0.4.0.post185"
+version_tuple = (0, 4, 0, 185)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post183")
+    pversion = V("0.4.0.post185")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post41"
-data_version_tuple = (0, 4, 0, 41)
+data_version_str = "0.4.0.post43"
+data_version_tuple = (0, 4, 0, 43)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post41")
+    pdata_version = V("0.4.0.post43")
 except ImportError:
     pass
-data_git_hash = "d2bcb55a2ce432e3108d2337c0d55c1ebeae44c6"
-data_git_describe = "0.4.0-41-gd2bcb55a"
+data_git_hash = "31047a80e4ec5ebee1cf7a41fdbf9cfdf46a77fe"
+data_git_describe = "0.4.0-43-g31047a80"
 data_git_msg = """\
-commit d2bcb55a2ce432e3108d2337c0d55c1ebeae44c6
-Merge: 20f63bd8 00bc245b
+commit 31047a80e4ec5ebee1cf7a41fdbf9cfdf46a77fe
+Merge: d2bcb55a 27cfbede
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Tue Jun 14 15:55:58 2022 +0200
+Date:   Thu Jun 16 07:32:18 2022 +0200
 
-    Merge pull request #233 from Silabs-ArjanB/ArjanB_dbg0
+    Merge pull request #234 from Silabs-ArjanB/ArjanB_pmp0
     
-    Added dcsr.EBREAKU related explanations
+    Tied off PMP related signals when PMP not fully configured
 
 """
 
