@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post217"
-version_tuple = (0, 4, 0, 217)
+version_str = "0.4.0.post219"
+version_tuple = (0, 4, 0, 219)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post217")
+    pversion = V("0.4.0.post219")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post75"
-data_version_tuple = (0, 4, 0, 75)
+data_version_str = "0.4.0.post77"
+data_version_tuple = (0, 4, 0, 77)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post75")
+    pdata_version = V("0.4.0.post77")
 except ImportError:
     pass
-data_git_hash = "81f51ffab8253a9ae8977d67693db468153cc6cd"
-data_git_describe = "0.4.0-75-g81f51ffa"
+data_git_hash = "59d63257587ca2a19224c081da450c614075c423"
+data_git_describe = "0.4.0-77-g59d63257"
 data_git_msg = """\
-commit 81f51ffab8253a9ae8977d67693db468153cc6cd
-Merge: f9932ac7 10865870
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Mon Jun 27 08:49:30 2022 +0200
+commit 59d63257587ca2a19224c081da450c614075c423
+Merge: 81f51ffa 67dfb3c0
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Mon Jun 27 09:16:30 2022 +0200
 
-    Merge pull request #239 from silabs-oysteink/silabs-oysteink_merge-w26-1
+    Merge pull request #240 from Silabs-ArjanB/ArjanV_secsd
     
-    Merge from CV32E40X
+    Fix of secureseed*_n for RVFI
 
 """
 
