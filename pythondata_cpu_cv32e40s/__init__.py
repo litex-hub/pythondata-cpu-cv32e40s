@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post245"
-version_tuple = (0, 4, 0, 245)
+version_str = "0.4.0.post251"
+version_tuple = (0, 4, 0, 251)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post245")
+    pversion = V("0.4.0.post251")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post103"
-data_version_tuple = (0, 4, 0, 103)
+data_version_str = "0.4.0.post109"
+data_version_tuple = (0, 4, 0, 109)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post103")
+    pdata_version = V("0.4.0.post109")
 except ImportError:
     pass
-data_git_hash = "6d7b0de6f92d6a4d7ee22f5b85ffa0d49919d848"
-data_git_describe = "0.4.0-103-g6d7b0de6"
+data_git_hash = "022ea425ad558588bfcf0b2c2c183f824f6972aa"
+data_git_describe = "0.4.0-109-g022ea425"
 data_git_msg = """\
-commit 6d7b0de6f92d6a4d7ee22f5b85ffa0d49919d848
-Merge: 1da7c409 27b31d3c
+commit 022ea425ad558588bfcf0b2c2c183f824f6972aa
+Merge: 6d7b0de6 b4e4513f
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Thu Jul 7 15:06:49 2022 +0200
+Date:   Fri Jul 8 10:28:48 2022 +0200
 
-    Merge pull request #245 from silabs-oysteink/silabs-oysteink_merge-w27-2
+    Merge pull request #246 from silabs-oysteink/silabs-oysteink_merge-w27-rvfi
     
-    Merge from CV32E40X + PC hardening updates
+    Self merging due to vacation season, should be reviewed later.
 
 """
 
