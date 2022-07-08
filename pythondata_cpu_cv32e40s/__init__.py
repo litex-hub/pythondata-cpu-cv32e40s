@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post251"
-version_tuple = (0, 4, 0, 251)
+version_str = "0.4.0.post253"
+version_tuple = (0, 4, 0, 253)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post251")
+    pversion = V("0.4.0.post253")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post109"
-data_version_tuple = (0, 4, 0, 109)
+data_version_str = "0.4.0.post111"
+data_version_tuple = (0, 4, 0, 111)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post109")
+    pdata_version = V("0.4.0.post111")
 except ImportError:
     pass
-data_git_hash = "022ea425ad558588bfcf0b2c2c183f824f6972aa"
-data_git_describe = "0.4.0-109-g022ea425"
+data_git_hash = "463bd7d187c587190a463d9b9f8458ee58201449"
+data_git_describe = "0.4.0-111-g463bd7d1"
 data_git_msg = """\
-commit 022ea425ad558588bfcf0b2c2c183f824f6972aa
-Merge: 6d7b0de6 b4e4513f
+commit 463bd7d187c587190a463d9b9f8458ee58201449
+Merge: 022ea425 3b1848b4
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Fri Jul 8 10:28:48 2022 +0200
+Date:   Fri Jul 8 13:56:24 2022 +0200
 
-    Merge pull request #246 from silabs-oysteink/silabs-oysteink_merge-w27-rvfi
+    Merge pull request #247 from silabs-oysteink/silabs-oysteink_issue-243
     
-    Self merging due to vacation season, should be reviewed later.
+    Self merging due to vacation season.
 
 """
 
