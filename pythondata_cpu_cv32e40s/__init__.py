@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post255"
-version_tuple = (0, 4, 0, 255)
+version_str = "0.4.0.post257"
+version_tuple = (0, 4, 0, 257)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post255")
+    pversion = V("0.4.0.post257")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post113"
-data_version_tuple = (0, 4, 0, 113)
+data_version_str = "0.4.0.post115"
+data_version_tuple = (0, 4, 0, 115)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post113")
+    pdata_version = V("0.4.0.post115")
 except ImportError:
     pass
-data_git_hash = "6ea0aec538c3c3e2e00ebfb471c6b01e9de8a5b8"
-data_git_describe = "0.4.0-113-g6ea0aec5"
+data_git_hash = "c52be100fd0768a9713fa37a5528fa81bc4258e8"
+data_git_describe = "0.4.0-115-gc52be100"
 data_git_msg = """\
-commit 6ea0aec538c3c3e2e00ebfb471c6b01e9de8a5b8
-Merge: 463bd7d1 305913be
-Author: Henrik Fegran <henrik.fegran@silabs.com>
-Date:   Tue Jul 12 09:33:40 2022 +0200
+commit c52be100fd0768a9713fa37a5528fa81bc4258e8
+Merge: 6ea0aec5 1a490f9c
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Thu Jul 14 10:14:32 2022 +0200
 
-    Merge pull request #250 from silabs-hfegran/dev_hf_itrace_param
+    Merge pull request #252 from silabs-hfegran/dev_hf_clic_manifest_update
     
-    Added parameter to disable itrace
+    Added missing clic interrupt controller to manifest
 
 """
 
