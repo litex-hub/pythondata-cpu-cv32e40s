@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post257"
-version_tuple = (0, 4, 0, 257)
+version_str = "0.4.0.post259"
+version_tuple = (0, 4, 0, 259)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post257")
+    pversion = V("0.4.0.post259")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post115"
-data_version_tuple = (0, 4, 0, 115)
+data_version_str = "0.4.0.post117"
+data_version_tuple = (0, 4, 0, 117)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post115")
+    pdata_version = V("0.4.0.post117")
 except ImportError:
     pass
-data_git_hash = "c52be100fd0768a9713fa37a5528fa81bc4258e8"
-data_git_describe = "0.4.0-115-gc52be100"
+data_git_hash = "26b419dc079ddaa509dcd16062eeda0d70744847"
+data_git_describe = "0.4.0-117-g26b419dc"
 data_git_msg = """\
-commit c52be100fd0768a9713fa37a5528fa81bc4258e8
-Merge: 6ea0aec5 1a490f9c
+commit 26b419dc079ddaa509dcd16062eeda0d70744847
+Merge: c52be100 fe941ae5
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Thu Jul 14 10:14:32 2022 +0200
+Date:   Fri Jul 15 08:12:56 2022 +0200
 
-    Merge pull request #252 from silabs-hfegran/dev_hf_clic_manifest_update
+    Merge pull request #253 from Silabs-ArjanB/ArjanB_todofl
     
-    Added missing clic interrupt controller to manifest
+    Added todos related to recent PRs
 
 """
 
