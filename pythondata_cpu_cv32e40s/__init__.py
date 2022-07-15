@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post259"
-version_tuple = (0, 4, 0, 259)
+version_str = "0.4.0.post262"
+version_tuple = (0, 4, 0, 262)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post259")
+    pversion = V("0.4.0.post262")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post117"
-data_version_tuple = (0, 4, 0, 117)
+data_version_str = "0.4.0.post120"
+data_version_tuple = (0, 4, 0, 120)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post117")
+    pdata_version = V("0.4.0.post120")
 except ImportError:
     pass
-data_git_hash = "26b419dc079ddaa509dcd16062eeda0d70744847"
-data_git_describe = "0.4.0-117-g26b419dc"
+data_git_hash = "d11f4a036f2e8ed322188b3460ea27f2f228b585"
+data_git_describe = "0.4.0-120-gd11f4a03"
 data_git_msg = """\
-commit 26b419dc079ddaa509dcd16062eeda0d70744847
-Merge: c52be100 fe941ae5
+commit d11f4a036f2e8ed322188b3460ea27f2f228b585
+Merge: 26b419dc adc412cf
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri Jul 15 08:12:56 2022 +0200
+Date:   Fri Jul 15 12:18:13 2022 +0200
 
-    Merge pull request #253 from Silabs-ArjanB/ArjanB_todofl
+    Merge pull request #254 from Silabs-ArjanB/ArjanB_244
     
-    Added todos related to recent PRs
+    Fix for PMPADDR
 
 """
 
