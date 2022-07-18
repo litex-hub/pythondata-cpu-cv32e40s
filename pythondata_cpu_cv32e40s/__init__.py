@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post266"
-version_tuple = (0, 4, 0, 266)
+version_str = "0.4.0.post268"
+version_tuple = (0, 4, 0, 268)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post266")
+    pversion = V("0.4.0.post268")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post124"
-data_version_tuple = (0, 4, 0, 124)
+data_version_str = "0.4.0.post126"
+data_version_tuple = (0, 4, 0, 126)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post124")
+    pdata_version = V("0.4.0.post126")
 except ImportError:
     pass
-data_git_hash = "c86152d136ff86d3d674a6291fff2a25e734aa08"
-data_git_describe = "0.4.0-124-gc86152d1"
+data_git_hash = "c70bf4e1121589c09edb4d0d51e8f599abaf1c03"
+data_git_describe = "0.4.0-126-gc70bf4e1"
 data_git_msg = """\
-commit c86152d136ff86d3d674a6291fff2a25e734aa08
-Merge: 33734528 38ed6a0b
+commit c70bf4e1121589c09edb4d0d51e8f599abaf1c03
+Merge: c86152d1 580f52b6
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Mon Jul 18 11:06:52 2022 +0200
+Date:   Mon Jul 18 11:43:50 2022 +0200
 
-    Merge pull request #259 from Silabs-ArjanB/ArjanB_249
+    Merge pull request #260 from Silabs-ArjanB/ArjanB_242
     
-    PMP fix (issue 249)
+    Fixed two bus related to the combination of debug mode and user level…
 
 """
 
