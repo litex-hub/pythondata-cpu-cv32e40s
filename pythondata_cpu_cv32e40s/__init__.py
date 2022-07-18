@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post262"
-version_tuple = (0, 4, 0, 262)
+version_str = "0.4.0.post264"
+version_tuple = (0, 4, 0, 264)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post262")
+    pversion = V("0.4.0.post264")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post120"
-data_version_tuple = (0, 4, 0, 120)
+data_version_str = "0.4.0.post122"
+data_version_tuple = (0, 4, 0, 122)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post120")
+    pdata_version = V("0.4.0.post122")
 except ImportError:
     pass
-data_git_hash = "d11f4a036f2e8ed322188b3460ea27f2f228b585"
-data_git_describe = "0.4.0-120-gd11f4a03"
+data_git_hash = "33734528ed27ad2df86ee1055173f3047d9c1649"
+data_git_describe = "0.4.0-122-g33734528"
 data_git_msg = """\
-commit d11f4a036f2e8ed322188b3460ea27f2f228b585
-Merge: 26b419dc adc412cf
+commit 33734528ed27ad2df86ee1055173f3047d9c1649
+Merge: d11f4a03 6cd941bb
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri Jul 15 12:18:13 2022 +0200
+Date:   Mon Jul 18 09:48:21 2022 +0200
 
-    Merge pull request #254 from Silabs-ArjanB/ArjanB_244
+    Merge pull request #258 from Silabs-ArjanB/ArjanB_248
     
-    Fix for PMPADDR
+    RVFI fix for issue 248 (wrong rvfi_dbg)
 
 """
 
