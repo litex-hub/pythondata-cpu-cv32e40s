@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post274"
-version_tuple = (0, 4, 0, 274)
+version_str = "0.4.0.post276"
+version_tuple = (0, 4, 0, 276)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post274")
+    pversion = V("0.4.0.post276")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post132"
-data_version_tuple = (0, 4, 0, 132)
+data_version_str = "0.4.0.post134"
+data_version_tuple = (0, 4, 0, 134)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post132")
+    pdata_version = V("0.4.0.post134")
 except ImportError:
     pass
-data_git_hash = "972b3616141140bb99f7bc9072450174c03f027a"
-data_git_describe = "0.4.0-132-g972b3616"
+data_git_hash = "87e0c256a1b025318758f8d6deb0b51d066f42b5"
+data_git_describe = "0.4.0-134-g87e0c256"
 data_git_msg = """\
-commit 972b3616141140bb99f7bc9072450174c03f027a
-Merge: fcca1616 1c566f81
+commit 87e0c256a1b025318758f8d6deb0b51d066f42b5
+Merge: 972b3616 081c23cb
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jul 19 08:45:54 2022 +0200
+Date:   Tue Jul 19 10:53:51 2022 +0200
 
-    Merge pull request #264 from Silabs-ArjanB/ArjanB_chk0
+    Merge pull request #266 from Silabs-ArjanB/ArjanB_chk1
     
-    Changed parity from odd to even for some of the achk and rchk signals
+    Added notes on checksum behavior for sub-word transactions
 
 """
 
