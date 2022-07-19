@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post272"
-version_tuple = (0, 4, 0, 272)
+version_str = "0.4.0.post274"
+version_tuple = (0, 4, 0, 274)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post272")
+    pversion = V("0.4.0.post274")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post130"
-data_version_tuple = (0, 4, 0, 130)
+data_version_str = "0.4.0.post132"
+data_version_tuple = (0, 4, 0, 132)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post130")
+    pdata_version = V("0.4.0.post132")
 except ImportError:
     pass
-data_git_hash = "fcca1616576762304d5e323c49b505c0c284558a"
-data_git_describe = "0.4.0-130-gfcca1616"
+data_git_hash = "972b3616141140bb99f7bc9072450174c03f027a"
+data_git_describe = "0.4.0-132-g972b3616"
 data_git_msg = """\
-commit fcca1616576762304d5e323c49b505c0c284558a
-Merge: 70793cc8 c3cb5b93
+commit 972b3616141140bb99f7bc9072450174c03f027a
+Merge: fcca1616 1c566f81
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Mon Jul 18 13:51:26 2022 +0200
+Date:   Tue Jul 19 08:45:54 2022 +0200
 
-    Merge pull request #263 from Silabs-ArjanB/ArjanB_mrv
+    Merge pull request #264 from Silabs-ArjanB/ArjanB_chk0
     
-    Added reset value for rvfi_mode
+    Changed parity from odd to even for some of the achk and rchk signals
 
 """
 
