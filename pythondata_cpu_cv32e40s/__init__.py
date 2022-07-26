@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post276"
-version_tuple = (0, 4, 0, 276)
+version_str = "0.4.0.post278"
+version_tuple = (0, 4, 0, 278)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post276")
+    pversion = V("0.4.0.post278")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post134"
-data_version_tuple = (0, 4, 0, 134)
+data_version_str = "0.4.0.post136"
+data_version_tuple = (0, 4, 0, 136)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post134")
+    pdata_version = V("0.4.0.post136")
 except ImportError:
     pass
-data_git_hash = "87e0c256a1b025318758f8d6deb0b51d066f42b5"
-data_git_describe = "0.4.0-134-g87e0c256"
+data_git_hash = "cdf2304c714ecbe6b731089b5a84f28d5dba0fdb"
+data_git_describe = "0.4.0-136-gcdf2304c"
 data_git_msg = """\
-commit 87e0c256a1b025318758f8d6deb0b51d066f42b5
-Merge: 972b3616 081c23cb
+commit cdf2304c714ecbe6b731089b5a84f28d5dba0fdb
+Merge: 87e0c256 f349ac23
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jul 19 10:53:51 2022 +0200
+Date:   Tue Jul 26 10:37:47 2022 +0200
 
-    Merge pull request #266 from Silabs-ArjanB/ArjanB_chk1
+    Merge pull request #267 from Silabs-ArjanB/ArjanB_wres
     
-    Added notes on checksum behavior for sub-word transactions
+    Added WARL resolution functions. Minimizing diff with 40X
 
 """
 
