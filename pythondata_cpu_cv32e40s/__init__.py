@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post280"
-version_tuple = (0, 4, 0, 280)
+version_str = "0.4.0.post282"
+version_tuple = (0, 4, 0, 282)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post280")
+    pversion = V("0.4.0.post282")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post138"
-data_version_tuple = (0, 4, 0, 138)
+data_version_str = "0.4.0.post140"
+data_version_tuple = (0, 4, 0, 140)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post138")
+    pdata_version = V("0.4.0.post140")
 except ImportError:
     pass
-data_git_hash = "2a72ce47742aca2870ab2340dc5d468abadc5829"
-data_git_describe = "0.4.0-138-g2a72ce47"
+data_git_hash = "ed92096c08e6dbebfbf1e4295f7583f365519648"
+data_git_describe = "0.4.0-140-ged92096c"
 data_git_msg = """\
-commit 2a72ce47742aca2870ab2340dc5d468abadc5829
-Merge: cdf2304c c35076ca
+commit ed92096c08e6dbebfbf1e4295f7583f365519648
+Merge: 2a72ce47 4d886758
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jul 26 11:37:34 2022 +0200
+Date:   Tue Jul 26 14:12:24 2022 +0200
 
-    Merge pull request #268 from Silabs-ArjanB/ArjanB_196
+    Merge pull request #269 from Silabs-ArjanB/ArjanB_235
     
-    Fix for issue 196
+    Updated exception code for Instruction Bus Fault and Instruction Pari…
 
 """
 
