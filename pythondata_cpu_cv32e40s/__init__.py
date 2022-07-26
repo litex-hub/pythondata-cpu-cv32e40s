@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post278"
-version_tuple = (0, 4, 0, 278)
+version_str = "0.4.0.post280"
+version_tuple = (0, 4, 0, 280)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post278")
+    pversion = V("0.4.0.post280")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post136"
-data_version_tuple = (0, 4, 0, 136)
+data_version_str = "0.4.0.post138"
+data_version_tuple = (0, 4, 0, 138)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post136")
+    pdata_version = V("0.4.0.post138")
 except ImportError:
     pass
-data_git_hash = "cdf2304c714ecbe6b731089b5a84f28d5dba0fdb"
-data_git_describe = "0.4.0-136-gcdf2304c"
+data_git_hash = "2a72ce47742aca2870ab2340dc5d468abadc5829"
+data_git_describe = "0.4.0-138-g2a72ce47"
 data_git_msg = """\
-commit cdf2304c714ecbe6b731089b5a84f28d5dba0fdb
-Merge: 87e0c256 f349ac23
+commit 2a72ce47742aca2870ab2340dc5d468abadc5829
+Merge: cdf2304c c35076ca
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jul 26 10:37:47 2022 +0200
+Date:   Tue Jul 26 11:37:34 2022 +0200
 
-    Merge pull request #267 from Silabs-ArjanB/ArjanB_wres
+    Merge pull request #268 from Silabs-ArjanB/ArjanB_196
     
-    Added WARL resolution functions. Minimizing diff with 40X
+    Fix for issue 196
 
 """
 
