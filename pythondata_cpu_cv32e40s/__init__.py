@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post282"
-version_tuple = (0, 4, 0, 282)
+version_str = "0.4.0.post284"
+version_tuple = (0, 4, 0, 284)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post282")
+    pversion = V("0.4.0.post284")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post140"
-data_version_tuple = (0, 4, 0, 140)
+data_version_str = "0.4.0.post142"
+data_version_tuple = (0, 4, 0, 142)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post140")
+    pdata_version = V("0.4.0.post142")
 except ImportError:
     pass
-data_git_hash = "ed92096c08e6dbebfbf1e4295f7583f365519648"
-data_git_describe = "0.4.0-140-ged92096c"
+data_git_hash = "bbebeb502897b715bc5b84835dfeb4199ba79993"
+data_git_describe = "0.4.0-142-gbbebeb50"
 data_git_msg = """\
-commit ed92096c08e6dbebfbf1e4295f7583f365519648
-Merge: 2a72ce47 4d886758
+commit bbebeb502897b715bc5b84835dfeb4199ba79993
+Merge: ed92096c a7d4b796
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Jul 26 14:12:24 2022 +0200
+Date:   Fri Jul 29 12:18:17 2022 +0200
 
-    Merge pull request #269 from Silabs-ArjanB/ArjanB_235
+    Merge pull request #271 from Silabs-ArjanB/ArjanB_intgr1
     
-    Updated exception code for Instruction Bus Fault and Instruction Pari…
+    Added integrity and pcharden bits in cpuctrl CSR. Redefined integrity…
 
 """
 
