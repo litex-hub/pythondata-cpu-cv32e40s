@@ -36,6 +36,8 @@ module cv32e40s_core_sva
   input ctrl_fsm_t   ctrl_fsm,
   input logic [10:0] exc_cause,
   input logic [31:0] mie,
+  input logic [31:0] mie_n,
+  input logic        mie_we,
   input logic [31:0] mip,
   input dcsr_t       dcsr,
   input              if_id_pipe_t if_id_pipe,
@@ -44,6 +46,7 @@ module cv32e40s_core_sva
   input logic        ex_ready,
   input logic        irq_ack, // irq ack output
   input logic        irq_clic_shv, // ack'ed irq is a CLIC SHV
+  input logic        irq_req_ctrl, // Interrupt controller request an interrupt
   input ex_wb_pipe_t ex_wb_pipe,
   input id_ex_pipe_t id_ex_pipe,
   input logic        sys_en_id,
@@ -105,9 +108,10 @@ module cv32e40s_core_sva
   input logic        ctrl_debug_mode_n,
   input logic        ctrl_pending_debug,
   input logic        ctrl_debug_allowed,
-  input              ctrl_state_e ctrl_fsm_ns,
+  input logic        ctrl_interrupt_allowed,
+  input logic        ctrl_pending_interrupt,
   input ctrl_byp_t   ctrl_byp,
-   // probed cs_registers signals
+  // probed cs_registers signals
   input logic [31:0] cs_registers_mie_q,
   input logic [31:0] cs_registers_mepc_n,
   input mcause_t     cs_registers_csr_cause_i, // From controller
@@ -123,10 +127,9 @@ module cv32e40s_core_sva
   input logic        mret_self_stall_bypass,
   input logic        jumpr_self_stall_bypass,
   input logic        last_sec_op_id_i,  // todo: liekely not needed when using last_op_id.
-  input logic        last_op_id
-  );
+  input logic        last_op_id);
 
-if(SMCLIC) begin
+if (SMCLIC) begin
   property p_clic_mie_tieoff;
     @(posedge clk)
     |mie == 1'b0;
@@ -286,7 +289,7 @@ always_ff @(posedge clk , negedge rst_ni)
       end
       else begin
         // Disregard saved CSR due to interrupts when chekcing exceptions
-        if(!cs_registers_csr_cause_i.irq) begin
+        if (!cs_registers_csr_cause_i.irq) begin
           if (!first_cause_illegal_found && (cs_registers_csr_cause_i.exception_code == EXC_CAUSE_ILLEGAL_INSN) && ctrl_fsm.csr_save_cause) begin
             first_cause_illegal_found <= 1'b1;
             actual_illegal_mepc       <= cs_registers_mepc_n;
@@ -371,7 +374,7 @@ always_ff @(posedge clk , negedge rst_ni)
   // For checking single step, ID stage is used as it contains a 'multi_op_id_stall' signal.
   // This makes it easy to count misaligned LSU ins as one instruction instead of two.
   logic inst_taken;
-  assign inst_taken = id_stage_id_valid && ex_ready && last_op_id && !id_stage_multi_op_id_stall;
+  assign inst_taken = id_stage_id_valid && ex_ready && last_op_id && !id_stage_multi_op_id_stall; // todo: the && !id_stage_multi_cycle_id_stall signal should now no longer be needed
 
   // Support for single step assertion
   // In case of single step + taken interrupt, the first instruction
@@ -384,9 +387,9 @@ always_ff @(posedge clk , negedge rst_ni)
         interrupt_taken <= 1'b0;
       end
       else begin
-        if(irq_ack == 1'b1) begin
+        if (irq_ack == 1'b1) begin
           interrupt_taken <= 1'b1;
-        end else if(ctrl_debug_mode_n) begin
+        end else if (ctrl_debug_mode_n) begin
           interrupt_taken <= 1'b0;
         end
       end
@@ -401,6 +404,8 @@ always_ff @(posedge clk , negedge rst_ni)
                      ##1 inst_taken [->1]
                      |-> (ctrl_fsm.debug_mode && dcsr.step))
       else `uvm_error("core", "Assertion a_single_step_no_irq failed")
+
+// todo: add similar assertion as above to check that only one instruction moves from IF to ID while taking a single step (rename inst_taken to inst_taken_id and introduce similar inst_taken_if signal)
 
 if (SMCLIC) begin
   // Non-SHV interrupt taken during single stepping.
@@ -458,10 +463,12 @@ end
     else `uvm_error("core", "IF priviledge level not consistent with current priviledge level")
 
   // Assert that change to user mode only happens when and MRET is in ID and mstatus.mpp == PRIV_LVL_U
+  // or a DRET is in WB and dcsr.prv == PRIV_LVL_U
   a_priv_lvl_u_mode_mret:
     assert property (@(posedge clk) disable iff (!rst_ni)
                      $changed(priv_lvl_if) && (priv_lvl_if == PRIV_LVL_U) |->
-                     ((sys_en_id && sys_mret_insn_id) && if_id_pipe.instr_valid && (cs_registers_mstatus_q.mpp == PRIV_LVL_U)))
+                     ((sys_en_id && sys_mret_insn_id) && if_id_pipe.instr_valid && (cs_registers_mstatus_q.mpp == PRIV_LVL_U)) ||
+                     ((ex_wb_pipe.instr_valid && ex_wb_pipe.sys_dret_insn && (dcsr.prv == PRIV_LVL_U))))
     else `uvm_error("core", "IF priviledge level changed to user mode when there's no MRET in ID stage")
 
   // Helper signal. Indicate that pc_mux is set to a trap
@@ -673,5 +680,43 @@ a_jumpr_self_stall_qual:
   a_tbljmp_stall: assert property(p_tbljmp_stall)
     else `uvm_error("core", "Table jump not stalled while CSR is written");
 
+if (!SMCLIC) begin
+  // Check that a pending interrupt is taken as soon as possible after being enabled
+  property p_mip_mie_write_enable;
+    @(posedge clk) disable iff (!rst_ni)
+    ( !irq_req_ctrl
+       ##1
+       irq_req_ctrl && $stable(mip) && !(ctrl_fsm.debug_mode || (dcsr.step && !dcsr.stepie))
+       |-> (ctrl_pending_interrupt && ctrl_interrupt_allowed));
+  endproperty;
+
+  a_mip_mie_write_enable: assert property(p_mip_mie_write_enable)
+    else `uvm_error("core", "Interrupt not taken soon enough after enabling");
+
+  // Check a pending interrupt that is disabled is actually not taken
+  property p_mip_mie_write_disable;
+    @(posedge clk) disable iff (!rst_ni)
+    (  irq_req_ctrl
+        ##1
+        !irq_req_ctrl && $stable(mip)
+        |-> !(ctrl_pending_interrupt && ctrl_interrupt_allowed));
+  endproperty;
+
+  a_mip_mie_write_disable: assert property(p_mip_mie_write_disable)
+    else `uvm_error("core", "Interrupt taken after disabling");
+end
+
+// Clearing external interrupts via a store instruction causes irq_i to go low the next cycle.
+  // The interrupt controller uses flopped versions of irq_i, and thus we need to disregard interrupts
+  // for one cycle after an rvalid has been observed.
+property p_no_irq_after_lsu;
+  @(posedge clk) disable iff (!rst_ni)
+  (  wb_valid && ex_wb_pipe.lsu_en && ex_wb_pipe.instr_valid
+     |=>
+     !ctrl_interrupt_allowed);
+endproperty;
+
+a_no_irq_after_lsu: assert property(p_no_irq_after_lsu)
+  else `uvm_error("core", "Interrupt taken after disabling");
 endmodule
 

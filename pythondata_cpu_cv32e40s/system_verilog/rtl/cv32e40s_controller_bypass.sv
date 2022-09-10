@@ -58,6 +58,7 @@ module cv32e40s_controller_bypass import cv32e40s_pkg::*;
 
   // From WB
   input  logic        wb_ready_i,                 // WB stage is ready
+  input  logic        csr_irq_enable_write_i,     // WB is writing to a CSR that may enable an interrupt.
 
   // Controller Bypass outputs
   output ctrl_byp_t   ctrl_byp_o
@@ -180,7 +181,12 @@ module cv32e40s_controller_bypass import cv32e40s_pkg::*;
   // This is needed because the data bypass from EX uses csr_rdata, and for mnxti this is actually mstatus and not the result
   // that will be written to the register file. Could be optimized to only stall when the result from the CSR instruction is used in ID,
   // but the common usecase is a CSR access followed by a branch using the mnxti result in the RF, so it would likely stall in most cases anyway.
-  assign ctrl_byp_o.mnxti_stall = csr_mnxti_read_i;
+  assign ctrl_byp_o.mnxti_id_stall = csr_mnxti_read_i;
+
+  // Stall EX stage when an mnxti is in EX and an LSU instruction is in WB.
+  // This is needed to make sure that any external interrupt clearing (due to a LSU instruction) gets picked
+  // up correctly by the mnxti access.
+  assign ctrl_byp_o.mnxti_ex_stall = csr_mnxti_read_i && (ex_wb_pipe_i.lsu_en && ex_wb_pipe_i.instr_valid);
 
   genvar i;
   generate
@@ -208,6 +214,7 @@ module cv32e40s_controller_bypass import cv32e40s_pkg::*;
     ctrl_byp_o.deassert_we         = 1'b0;
     ctrl_byp_o.csr_stall           = 1'b0;
     ctrl_byp_o.minstret_stall      = 1'b0;
+    ctrl_byp_o.irq_enable_stall    = 1'b0;
 
     // deassert WE when the core has an exception in ID (ins converted to nop and propagated to WB)
     // Also deassert for trigger match, as with dcsr.timing==0 we do not execute before entering debug mode
@@ -250,7 +257,14 @@ module cv32e40s_controller_bypass import cv32e40s_pkg::*;
     if (csr_counter_read_i && ex_wb_pipe_i.instr_valid) begin
       ctrl_byp_o.minstret_stall = 1'b1;
     end
+
+    // Stall EX when an interrupt may be enabled from WB while there is a LSU instruction in EX.
+    if (csr_irq_enable_write_i && (id_ex_pipe_i.instr_valid && id_ex_pipe_i.lsu_en)) begin
+      ctrl_byp_o.irq_enable_stall = 1'b1;
+    end
   end
+
+  assign ctrl_byp_o.id_stage_abort = ctrl_byp_o.deassert_we;
 
   // Forwarding control unit
   always_comb

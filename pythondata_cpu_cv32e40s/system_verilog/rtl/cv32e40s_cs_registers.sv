@@ -115,6 +115,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   input  logic [7:0]                    mnxti_irq_level_i,
   output logic                          clic_pa_valid_o,        // CSR read data is an address to a function pointer
   output logic [31:0]                   clic_pa_o,              // Address to CLIC function pointer
+  output logic                          csr_irq_enable_write_o, // An irq enable write is being performed in WB
 
   // PMP
   output pmp_csr_t                      csr_pmp_o,
@@ -229,7 +230,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   mtvt_t                        mtvt_q, mtvt_n, mtvt_rdata;
   logic                         mtvt_we;
 
-  logic [31:0]                  mnxti_rdata;                                    // No CSR module instance
+  logic [31:0]                  mnxti_n, mnxti_rdata;                           // No CSR module instance
   logic                         mnxti_we;
 
   mintstatus_t                  mintstatus_q, mintstatus_n, mintstatus_rdata;
@@ -238,10 +239,10 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   logic [31:0]                  mintthresh_q, mintthresh_n, mintthresh_rdata;
   logic                         mintthresh_we;
 
-  logic [31:0]                  mscratchcsw_q, mscratchcsw_n, mscratchcsw_rdata;
+  logic [31:0]                  mscratchcsw_n, mscratchcsw_rdata;
   logic                         mscratchcsw_we;
 
-  logic [31:0]                  mscratchcswl_q, mscratchcswl_n, mscratchcswl_rdata;
+  logic [31:0]                  mscratchcswl_n, mscratchcswl_rdata;
   logic                         mscratchcswl_we;
 
   logic [31:0]                  mclicbase_q, mclicbase_n, mclicbase_rdata;
@@ -275,20 +276,20 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   logic                         mcounteren_we;                                  // Not used in RTL (used by RVFI)
 
   pmpncfg_t                     pmpncfg_n[PMP_MAX_REGIONS];
+  pmpncfg_t                     pmpncfg_n_int[PMP_MAX_REGIONS];
   pmpncfg_t                     pmpncfg_q[PMP_MAX_REGIONS];
   pmpncfg_t                     pmpncfg_rdata[PMP_MAX_REGIONS];
-  logic [PMP_MAX_REGIONS-1:0]   pmpncfg_we_int;
   logic [PMP_MAX_REGIONS-1:0]   pmpncfg_we;
   logic [PMP_MAX_REGIONS-1:0]   pmpncfg_locked;
+  logic [PMP_MAX_REGIONS-1:0]   pmpaddr_locked;
   logic [PMP_MAX_REGIONS-1:0]   pmpncfg_wr_addr_match;
   logic [PMP_MAX_REGIONS-1:0]   pmpncfg_warl_ignore_wr;
   logic [PMP_MAX_REGIONS-1:0]   pmpaddr_wr_addr_match;
 
-  logic [PMP_ADDR_WIDTH-1:0]    pmp_addr_n;                                     // Value written is not necessarily the value read
+  logic [PMP_ADDR_WIDTH-1:0]    pmp_addr_n[PMP_MAX_REGIONS];                    // Value written is not necessarily the value read
   logic [PMP_ADDR_WIDTH-1:0]    pmp_addr_q[PMP_MAX_REGIONS];
   logic [31:0]                  pmp_addr_n_r;                                   // Not used in RTL (used by RVFI) (next read value)
   logic [31:0]                  pmp_addr_rdata[PMP_MAX_REGIONS];
-  logic [PMP_MAX_REGIONS-1:0]   pmp_addr_we_int;
   logic [PMP_MAX_REGIONS-1:0]   pmp_addr_we;
 
   mseccfg_t                     pmp_mseccfg_n;
@@ -373,8 +374,6 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   logic                         mintstatus_rd_error;
   logic                         mintthresh_rd_error;
   logic                         mclicbase_rd_error;
-  logic                         mscratchcsw_rd_error;
-  logic                         mscratchcswl_rd_error;
   logic                         jvt_rd_error;
   logic                         priv_lvl_rd_error;
   logic                         mstateen0_rd_error;
@@ -415,8 +414,6 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
     mintstatus_rd_error ||
     mintthresh_rd_error ||
     mclicbase_rd_error ||
-    mscratchcsw_rd_error ||
-    mscratchcswl_rd_error ||
     jvt_rd_error ||
     priv_lvl_rd_error ||
     mstateen0_rd_error;
@@ -544,7 +541,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
           // The data read here is what will be used in the read-modify-write portion of the CSR access.
           // For mnxti, this is actually mstatus. The value written back to the GPR will be the address of
           // the function pointer to the interrupt handler. This is muxed in the WB stage.
-          csr_rdata_int = mnxti_rdata;
+          csr_rdata_int = mstatus_rdata;
           csr_mnxti_read_o = 1'b1;
         end else begin
           csr_rdata_int    = '0;
@@ -575,7 +572,18 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
       // mscratchcsw: Scratch Swap for Multiple Privilege Modes
       CSR_MSCRATCHCSW: begin
         if (SMCLIC) begin
-          csr_rdata_int = mscratchcsw_rdata;
+          // CLIC spec 13.2
+          // Depending on MPP, we return either mscratch_rdata or rs1 to rd.
+          // Safe to use mcause_rdata here (EX timing), as there is a generic stall of the ID stage
+          // whenever a CSR instruction follows another CSR instruction. Alternative implementation using
+          // a local forward of mcause_rdata is identical (SEC).
+          if (mcause_rdata.mpp != PRIV_LVL_M) begin
+            // Return mscratch for writing to GPR
+            csr_rdata_int = mscratch_rdata;
+          end else begin
+            // return rs1 for writing to GPR
+            csr_rdata_int = id_ex_pipe_i.alu_operand_a;
+          end
         end else begin
           csr_rdata_int    = '0;
           illegal_csr_read = 1'b1;
@@ -585,7 +593,18 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
       // mscratchcswl: Scratch Swap for Interrupt Levels
       CSR_MSCRATCHCSWL: begin
         if (SMCLIC) begin
-          csr_rdata_int = mscratchcswl_rdata;
+          // CLIC spec 14.1
+          // Depending on mcause.pil and mintstatus.mil, either mscratch or rs1 is returned to rd.
+          // Safe to use mcause_rdata and mintstatus_rdata here (EX timing), as there is a generic stall of the ID stage
+          // whenever a CSR instruction follows another CSR instruction. Alternative implementation using
+          // a local forward of mcause_rdata and mintstatus_rdata is identical (SEC).
+          if ((mcause_rdata.mpil == '0) != (mintstatus_rdata.mil == 0)) begin
+            // Return mscratch for writing to GPR
+            csr_rdata_int = mscratch_rdata;
+          end else begin
+            // return rs1 for writing to GPR
+            csr_rdata_int = id_ex_pipe_i.alu_operand_a;
+          end
         end else begin
           csr_rdata_int    = '0;
           illegal_csr_read = 1'b1;
@@ -990,10 +1009,10 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
       mintthresh_n             = csr_wdata_int & CSR_MINTTHRESH_MASK;
       mintthresh_we            = 1'b0;
 
-      mscratchcsw_n            = csr_wdata_int; // todo: isssue 589
+      mscratchcsw_n            = mscratch_n; // mscratchcsw operates conditionally on mscratch
       mscratchcsw_we           = 1'b0;
 
-      mscratchcswl_n           = csr_wdata_int; // todo: isssue 589
+      mscratchcswl_n           = mscratch_n; // mscratchcswl operates conditionally on mscratch
       mscratchcswl_we          = 1'b0;
 
       mie_n                    = '0;
@@ -1050,9 +1069,8 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
       mcause_we                = 1'b0;
     end
 
-    pmpncfg_we_int  = {PMP_MAX_REGIONS{1'b0}};
-    pmp_addr_n      = csr_wdata_int[31-:PMP_ADDR_WIDTH];
-    pmp_addr_we_int = {PMP_MAX_REGIONS{1'b0}};
+    pmpncfg_we      = {PMP_MAX_REGIONS{1'b0}};
+    pmp_addr_we     = {PMP_MAX_REGIONS{1'b0}};
     pmp_mseccfg_we  = 1'b0;
 
     pmp_mseccfgh_n  = pmp_mseccfgh_rdata;         // Read-only
@@ -1231,13 +1249,22 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
 
         CSR_MSCRATCHCSW: begin
           if (SMCLIC) begin
-            mscratchcsw_we = 1'b1;
+            // mscratchcsw operates on mscratch
+            // Writing only when mcause.mpp != PRIV_LVL_M
+            if (mcause_rdata.mpp != PRIV_LVL_M) begin
+              mscratchcsw_we = 1'b1;
+              mscratch_we    = 1'b1;
+            end
           end
         end
 
         CSR_MSCRATCHCSWL: begin
           if (SMCLIC) begin
-            mscratchcswl_we = 1'b1;
+            // mscratchcswl operates on mscratch
+            if ((mcause_rdata.mpil == '0) != (mintstatus_rdata.mil == '0)) begin
+              mscratchcswl_we = 1'b1;
+              mscratch_we     = 1'b1;
+            end
           end
         end
 
@@ -1297,7 +1324,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
         CSR_PMPCFG8,  CSR_PMPCFG9,  CSR_PMPCFG10, CSR_PMPCFG11,
         CSR_PMPCFG12, CSR_PMPCFG13, CSR_PMPCFG14, CSR_PMPCFG15: begin
           if (PMP) begin
-            pmpncfg_we_int[csr_waddr[3:0]*4+:4] = 4'hF;
+            pmpncfg_we[csr_waddr[3:0]*4+:4] = 4'hF;
           end
         end
 
@@ -1306,7 +1333,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
         CSR_PMPADDR8,  CSR_PMPADDR9,  CSR_PMPADDR10, CSR_PMPADDR11,
         CSR_PMPADDR12, CSR_PMPADDR13, CSR_PMPADDR14, CSR_PMPADDR15: begin
           if (PMP) begin
-            pmp_addr_we_int[6'(16*0 + csr_waddr[3:0])] = 1'b1;
+            pmp_addr_we[6'(16*0 + csr_waddr[3:0])] = 1'b1;
           end
         end
 
@@ -1315,7 +1342,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
         CSR_PMPADDR24, CSR_PMPADDR25, CSR_PMPADDR26, CSR_PMPADDR27,
         CSR_PMPADDR28, CSR_PMPADDR29, CSR_PMPADDR30, CSR_PMPADDR31: begin
           if (PMP) begin
-            pmp_addr_we_int[6'(16*1 + csr_waddr[3:0])] = 1'b1;
+            pmp_addr_we[6'(16*1 + csr_waddr[3:0])] = 1'b1;
           end
         end
 
@@ -1324,7 +1351,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
         CSR_PMPADDR40, CSR_PMPADDR41, CSR_PMPADDR42, CSR_PMPADDR43,
         CSR_PMPADDR44, CSR_PMPADDR45, CSR_PMPADDR46, CSR_PMPADDR47: begin
           if (PMP) begin
-            pmp_addr_we_int[6'(16*2 + csr_waddr[3:0])] = 1'b1;
+            pmp_addr_we[6'(16*2 + csr_waddr[3:0])] = 1'b1;
           end
         end
 
@@ -1333,7 +1360,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
         CSR_PMPADDR56, CSR_PMPADDR57, CSR_PMPADDR58, CSR_PMPADDR59,
         CSR_PMPADDR60, CSR_PMPADDR61, CSR_PMPADDR62, CSR_PMPADDR63: begin
           if (PMP) begin
-            pmp_addr_we_int[6'(16*3 + csr_waddr[3:0])] = 1'b1;
+            pmp_addr_we[6'(16*3 + csr_waddr[3:0])] = 1'b1;
           end
         end
 
@@ -1432,6 +1459,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
             mstateen3h_we = 1'b1;
           end
         end
+        default:;
       endcase
     end
 
@@ -1459,14 +1487,14 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
 
         // Write mpie and mpp as aliased through mcause
         mstatus_n.mpie = csr_wdata_int[MCAUSE_MPIE_BIT];
-        mstatus_n.mpp  = mstatus_mpp_resolve(mstatus_rdata.mpp, csr_wdata_int[MSTATUS_MPP_BIT_HIGH:MSTATUS_MPP_BIT_LOW]);
+        mstatus_n.mpp  = mstatus_mpp_resolve(mstatus_rdata.mpp, csr_wdata_int[MCAUSE_MPP_BIT_HIGH:MCAUSE_MPP_BIT_LOW]);
       end
       // The CLIC pointer address should always be output for an access to MNXTI,
       // but will only contain a nonzero value if a CLIC interrupt is actually pending
       // with a higher level. The valid below will be high also for the cases where
       // no side effects occur.
       clic_pa_valid_o = csr_en_gated && (csr_waddr == CSR_MNXTI);
-      clic_pa_o       = mnxti_irq_pending_i ? {mtvt_addr_o, mnxti_irq_id_i, 2'b00} : 32'h00000000;
+      clic_pa_o       = mnxti_rdata;
     end else begin
       clic_pa_valid_o = 1'b0;
       clic_pa_o       = '0;
@@ -1513,10 +1541,18 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
             // mpil is saved from mintstatus
             mcause_n.mpil = mintstatus_rdata.mil;
 
-            // todo: handle exception vs interrupt
             // Save new interrupt level to mintstatus
-            mintstatus_n.mil = ctrl_fsm_i.irq_level;
-            mintstatus_we = 1'b1;
+            // Horizontal synchronous exception traps do not change the interrupt level.
+            // Vertical synchronous exception traps to higher privilege level use interrupt level 0.
+            // All exceptions are taken in PRIV_LVL_M, so checking that we get a different privilege level is sufficient for clearing
+            // mintstatus.mil.
+            if (ctrl_fsm_i.csr_cause.irq) begin
+              mintstatus_n.mil = ctrl_fsm_i.irq_level;
+              mintstatus_we = 1'b1;
+            end else if ((priv_lvl_rdata != priv_lvl_n)) begin
+              mintstatus_n.mil = '0;
+              mintstatus_we = 1'b1;
+            end
           end else begin
             mcause_n.mpil = '0;
           end
@@ -1564,6 +1600,9 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
     endcase
   end
 
+  // Mirroring mstatus_n to mnxti_n for RVFI
+  assign mnxti_n = mstatus_n;
+
   // CSR operation logic
   // Using ex_wb_pipe_i.rf_wdata for read-modify-write since CSR was read in EX, written in WB
   always_comb
@@ -1582,6 +1621,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
           csr_wdata_int = csr_wdata;
           csr_we_int    = 1'b0;
         end
+        default:;
       endcase
     end
   end
@@ -1862,43 +1902,6 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
       #(
         .LIB        (LIB),
         .WIDTH      (32),
-        .MASK       (CSR_MSCRATCHCSW_MASK),
-        .SHADOWCOPY (SECURE),
-        .RESETVALUE (32'h0)
-      )
-      mscratchcsw_csr_i (
-        .clk            ( clk                   ),
-        .rst_n          ( rst_n                 ),
-        .scan_cg_en_i   ( scan_cg_en_i          ),
-        .wr_data_i      ( mscratchcsw_n         ),
-        .wr_en_i        ( mscratchcsw_we        ),
-        .rd_data_o      ( mscratchcsw_q         ),
-        .rd_error_o     ( mscratchcsw_rd_error  )
-      );
-
-      cv32e40s_csr
-      #(
-        .LIB        (LIB),
-        .WIDTH      (32),
-        .MASK       (CSR_MSCRATCHCSWL_MASK),
-        .SHADOWCOPY (SECURE),
-        .RESETVALUE (32'h0)
-      )
-      mscratchcswl_csr_i
-      (
-        .clk            ( clk                   ),
-        .rst_n          ( rst_n                 ),
-        .scan_cg_en_i   ( scan_cg_en_i          ),
-        .wr_data_i      ( mscratchcswl_n        ),
-        .wr_en_i        ( mscratchcswl_we       ),
-        .rd_data_o      ( mscratchcswl_q        ),
-        .rd_error_o     ( mscratchcswl_rd_error )
-      );
-
-      cv32e40s_csr
-      #(
-        .LIB        (LIB),
-        .WIDTH      (32),
         .MASK       (CSR_MCLICBASE_MASK),
         .SHADOWCOPY (SECURE),
         .RESETVALUE (32'h0)
@@ -1964,10 +1967,8 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
       assign mintthresh_rd_error   = 1'b0;
 
       assign mscratchcsw_q         = 32'h0;
-      assign mscratchcsw_rd_error  = 1'b0;
 
       assign mscratchcswl_q        = 32'h0;
-      assign mscratchcswl_rd_error = 1'b0;
 
       assign mclicbase_q           = 32'h0;
       assign mclicbase_rd_error    = 1'b0;
@@ -2184,41 +2185,48 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
 
           assign pmpncfg_wr_addr_match[i] = (csr_waddr == csr_num_e'(CSR_PMPCFG0 + i));
 
+          assign pmpncfg_n_int[i] = csr_wdata_int[(i%4)*PMPNCFG_W+:PMPNCFG_W];
+
           // Smepmp spec version 1.0, 4b: When mseccfg.mml==1, M-mode only or locked shared regions with executable privileges is not possible, and such writes are ignored. Exempt when mseccfg.rlb==1
           assign pmpncfg_warl_ignore_wr[i] = pmp_mseccfg_rdata.rlb ? 1'b0 :
                                              pmp_mseccfg_rdata.mml &&
-                                             (({pmpncfg_n[i].lock, pmpncfg_n[i].read, pmpncfg_n[i].write, pmpncfg_n[i].exec} == 4'b1001) || // Locked region, M-mode: execute,      S/U mode: none
-                                              ({pmpncfg_n[i].lock, pmpncfg_n[i].read, pmpncfg_n[i].write, pmpncfg_n[i].exec} == 4'b1010) || // Locked region, M-mode: execute,      S/U mode: execute
-                                              ({pmpncfg_n[i].lock, pmpncfg_n[i].read, pmpncfg_n[i].write, pmpncfg_n[i].exec} == 4'b1011) || // Locked region, M-mode: read/execute, S/U mode: execute
-                                              ({pmpncfg_n[i].lock, pmpncfg_n[i].read, pmpncfg_n[i].write, pmpncfg_n[i].exec} == 4'b1101));  // Locked region, M-mode: read/execute, S/U mode: none
+                                             (({pmpncfg_n_int[i].lock, pmpncfg_n_int[i].read, pmpncfg_n_int[i].write, pmpncfg_n_int[i].exec} == 4'b1001) || // Locked region, M-mode: execute,      S/U mode: none
+                                              ({pmpncfg_n_int[i].lock, pmpncfg_n_int[i].read, pmpncfg_n_int[i].write, pmpncfg_n_int[i].exec} == 4'b1010) || // Locked region, M-mode: execute,      S/U mode: execute
+                                              ({pmpncfg_n_int[i].lock, pmpncfg_n_int[i].read, pmpncfg_n_int[i].write, pmpncfg_n_int[i].exec} == 4'b1011) || // Locked region, M-mode: read/execute, S/U mode: execute
+                                              ({pmpncfg_n_int[i].lock, pmpncfg_n_int[i].read, pmpncfg_n_int[i].write, pmpncfg_n_int[i].exec} == 4'b1101));  // Locked region, M-mode: read/execute, S/U mode: none
 
           // MSECCFG.RLB allows the lock bit to be bypassed
           assign pmpncfg_locked[i] = pmpncfg_rdata[i].lock && !pmp_mseccfg_rdata.rlb;
 
-          // Qualify PMPCFG write strobe with lock status
-          assign pmpncfg_we[i] = pmpncfg_we_int[i] && !(pmpncfg_locked[i] || pmpncfg_warl_ignore_wr[i]);
-
           // Extract PMPCFGi bits from wdata
           always_comb begin
 
-            pmpncfg_n[i]       = csr_wdata_int[(i%4)*PMPNCFG_W+:PMPNCFG_W];
-            pmpncfg_n[i].zero0 = '0;
-
-            // RW = 01 is a reserved combination, and shall result in RW = 00, unless mseccfg.mml==1
-            if (!pmpncfg_n[i].read && pmpncfg_n[i].write && !pmp_mseccfg_rdata.mml) begin
-              pmpncfg_n[i].read  = 1'b0;
-              pmpncfg_n[i].write = 1'b0;
+            if(pmpncfg_locked[i] || pmpncfg_warl_ignore_wr[i]) begin
+              // Write is ignored because the PMP region is locked or if the write value is illegal
+              pmpncfg_n[i] = pmpncfg_q[i];
             end
+            else begin
 
-            // NA4 mode is not selectable when G > 0, mode is treated as OFF // todo: keep old mode
-            unique case (csr_wdata_int[(i%4)*PMPNCFG_W+3+:2])
-              PMP_MODE_OFF   : pmpncfg_n[i].mode = PMP_MODE_OFF;
-              PMP_MODE_TOR   : pmpncfg_n[i].mode = PMP_MODE_TOR;
-              PMP_MODE_NA4   : pmpncfg_n[i].mode = (PMP_GRANULARITY == 0) ? PMP_MODE_NA4 :
-                                                    PMP_MODE_OFF;
-              PMP_MODE_NAPOT : pmpncfg_n[i].mode = PMP_MODE_NAPOT;
-              default : pmpncfg_n[i].mode = PMP_MODE_OFF;
-            endcase
+              pmpncfg_n[i]       = csr_wdata_int[(i%4)*PMPNCFG_W+:PMPNCFG_W];
+              pmpncfg_n[i].zero0 = '0;
+
+              // PMPCFG.R/W/X form a collective WARL field, disallowing RW=01. Writing an illegal value will leave RWX unchanged.
+              if (!pmpncfg_n[i].read && pmpncfg_n[i].write && !pmp_mseccfg_rdata.mml) begin
+                pmpncfg_n[i].read  = pmpncfg_q[i].read;
+                pmpncfg_n[i].write = pmpncfg_q[i].write;
+                pmpncfg_n[i].exec  = pmpncfg_q[i].exec;
+              end
+
+              // NA4 mode is not selectable when G > 0, mode is treated as OFF // todo: keep old mode
+              unique case (csr_wdata_int[(i%4)*PMPNCFG_W+3+:2])
+                PMP_MODE_OFF   : pmpncfg_n[i].mode = PMP_MODE_OFF;
+                PMP_MODE_TOR   : pmpncfg_n[i].mode = PMP_MODE_TOR;
+                PMP_MODE_NA4   : pmpncfg_n[i].mode = (PMP_GRANULARITY == 0) ? PMP_MODE_NA4 :
+                                                     PMP_MODE_OFF;
+                PMP_MODE_NAPOT : pmpncfg_n[i].mode = PMP_MODE_NAPOT;
+                default : pmpncfg_n[i].mode = PMP_MODE_OFF;
+              endcase
+            end
           end
 
           cv32e40s_csr
@@ -2243,16 +2251,17 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
           assign csr_pmp_o.cfg[i] = pmpncfg_q[i];
 
           if (i == PMP_NUM_REGIONS-1) begin: pmp_addr_qual_upper
-            assign pmp_addr_we[i] = pmp_addr_we_int[i] &&
-                                    !pmpncfg_locked[i];
+            assign pmpaddr_locked[i] = pmpncfg_locked[i];
           end else begin: pmp_addr_qual_other
             // If the region at the next index is configured as TOR, this region's address register is locked
-            assign pmp_addr_we[i] = pmp_addr_we_int[i] &&
-                                    !pmpncfg_locked[i] &&
-                                    (!pmpncfg_locked[i+1] || pmpncfg_q[i+1].mode != PMP_MODE_TOR);
+            assign pmpaddr_locked[i] = pmpncfg_locked[i] ||
+                                       (pmpncfg_locked[i+1] && pmpncfg_q[i+1].mode == PMP_MODE_TOR);
           end
 
           assign pmpaddr_wr_addr_match[i] = (csr_waddr == csr_num_e'(CSR_PMPADDR0 + i));
+
+          // Keep old data if PMPADDR is locked
+          assign pmp_addr_n[i] = pmpaddr_locked[i] ? pmp_addr_q[i] : csr_wdata_int[31-:PMP_ADDR_WIDTH];
 
           cv32e40s_csr
           #(
@@ -2267,7 +2276,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
             .clk            ( clk                   ),
             .rst_n          ( rst_n                 ),
             .scan_cg_en_i   ( scan_cg_en_i          ),
-            .wr_data_i      ( pmp_addr_n            ),
+            .wr_data_i      ( pmp_addr_n[i]         ),
             .wr_en_i        ( pmp_addr_we[i]        ),
             .rd_data_o      ( pmp_addr_q[i]         ),
             .rd_error_o     ( pmp_addr_rd_error[i]  )
@@ -2307,13 +2316,11 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
           assign pmpncfg_q[i]              = pmpncfg_t'('0);
           assign pmpncfg_rd_error[i]       = 1'b0;
           assign pmpncfg_warl_ignore_wr[i] = 1'b0;
-          assign pmpncfg_we[i]             = 1'b0;
           assign pmpncfg_wr_addr_match[i]  = 1'b0;
 
           assign pmp_addr_q[i]             = '0;
           assign pmp_addr_rdata[i]         = '0;
           assign pmp_addr_rd_error[i]      = 1'b0;
-          assign pmp_addr_we[i]            = 1'b0;
 
           assign pmpaddr_wr_addr_match[i]  = 1'b0;
 
@@ -2367,13 +2374,11 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
         assign pmpncfg_q[i]              = pmpncfg_t'('0);
         assign pmpncfg_rd_error[i]       = 1'b0;
         assign pmpncfg_warl_ignore_wr[i] = 1'b0;
-        assign pmpncfg_we[i]             = 1'b0;
         assign pmpncfg_wr_addr_match[i]  = 1'b0;
 
         assign pmp_addr_q[i]             = '0;
         assign pmp_addr_rdata[i]         = '0;
         assign pmp_addr_rd_error[i]      = 1'b0;
-        assign pmp_addr_we[i]            = 1'b0;
 
         assign pmpaddr_wr_addr_match[i]  = 1'b0;
 
@@ -2407,8 +2412,6 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   assign mtvt_rdata         = mtvt_q;
   assign mintstatus_rdata   = mintstatus_q;
   assign mintthresh_rdata   = mintthresh_q;
-  assign mscratchcsw_rdata  = mscratchcsw_q;
-  assign mscratchcswl_rdata = mscratchcswl_q;
   assign mclicbase_rdata    = mclicbase_q;
   assign mie_rdata          = mie_q;
 
@@ -2417,10 +2420,19 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
   assign pmpncfg_rdata      = pmpncfg_q;
   assign pmp_mseccfg_rdata  = pmp_mseccfg_q;
 
-  //  mnxti_rdata will be used in the read-modify-write portion of the CSR access.
-  // For mnxti, this is actually mstatus. The value written back to the GPR will be
-  // the address of the function pointer to the interrupt handler.
-  assign mnxti_rdata        = mstatus_rdata;
+  // mnxti_rdata breaks the regular convension for CSRs. The read data used for read-modify-write is the mstatus_rdata,
+  // while the value read and written back to the GPR is a pointer address if an interrupt is pending, or zero
+  // if no interrupt is pending.
+  assign mnxti_rdata        = mnxti_irq_pending_i ? {mtvt_addr_o, mnxti_irq_id_i, 2'b00} : 32'h00000000;
+
+  // mscratchcsw_rdata breaks the regular convension for CSrs. Read data depend on mcause.mpp
+  // mscratch_rdata is returned if mcause.mpp differs from PRIV_LVL_M, otherwise rs1 is returned.
+  // This signal is only used by RVFI, and has WB timing (rs1 comes from ex_wb_pipe_i.csr_wdata, flopped version of id_ex_pipe.alu_operand_a)
+  assign mscratchcsw_rdata  = (mcause_rdata.mpp != PRIV_LVL_M) ? mscratch_rdata : ex_wb_pipe_i.csr_wdata;
+
+  // mscratchcswl_rdata breaks the regular convension for CSrs. Read data depend on mcause.pil and mintstatus.mil.
+  // This signal is only used by RVFI, and has WB timing (rs1 comes from ex_wb_pipe_i.csr_wdata, flopped version of id_ex_pipe.alu_operand_a)
+  assign mscratchcswl_rdata = ((mcause_rdata.mpil == '0) != (mintstatus_rdata.mil == 0)) ? mscratch_rdata : ex_wb_pipe_i.csr_wdata;
 
   assign mip_rdata          = mip_i;
   assign misa_rdata         = MISA_VALUE;
@@ -2465,6 +2477,15 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
 
   assign csr_rdata_o = csr_rdata_int;
 
+
+  // Signal when an interrupt may become enabled due to a CSR write
+  generate
+    if (SMCLIC) begin : smclic_irq_en
+      assign csr_irq_enable_write_o = mstatus_we || priv_lvl_we || mintthresh_we || mintstatus_we;
+    end else begin : basic_irq_en
+      assign csr_irq_enable_write_o = mie_we || mstatus_we || priv_lvl_we;
+    end
+  endgenerate
 
   ////////////////////////////////////////////////////////////////////////
   //
@@ -2779,6 +2800,7 @@ module cv32e40s_cs_registers import cv32e40s_pkg::*;
     mimpid_we | mhartid_we | mconfigptr_we | mtval_we | pmp_mseccfgh_we | mcounteren_we | menvcfg_we | menvcfgh_we |
     tdata1_rd_error | tdata2_rd_error | dpc_rd_error | dscratch0_rd_error | dscratch1_rd_error | mcause_rd_error |
     mstateen1_we | mstateen2_we | mstateen3_we | mstateen0h_we | mstateen1h_we | mstateen2h_we |
-    mstateen3h_we | (|pmp_addr_n_r);
+    mstateen3h_we | (|pmp_addr_n_r) | (|mnxti_n) | mscratchcsw_we | mscratchcswl_we |
+    (|mscratchcsw_rdata) | (|mscratchcswl_rdata) | (|mscratchcsw_n) | (|mscratchcswl_n);
 
 endmodule

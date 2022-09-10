@@ -74,7 +74,8 @@ module cv32e40s_wb_stage import cv32e40s_pkg::*;
   input logic [31:0]    clic_pa_i,
   input logic           clic_pa_valid_i,
 
-  output logic          last_op_o
+  output logic          last_op_o,
+  output logic          abort_op_o
 );
 
   logic                 instr_valid;
@@ -148,11 +149,14 @@ module cv32e40s_wb_stage import cv32e40s_pkg::*;
   assign wb_valid_o = wb_valid;
 
   // Signal that WB stage contains the last operation of an instruction
-  // Split misaligned LSU instructions are forced to be 'last_op' if an exception occurs in either the first or last operation.
-  assign last_op_o = ex_wb_pipe_i.last_op || ( ex_wb_pipe_i.lsu_en && lsu_exception);
+  assign last_op_o = ex_wb_pipe_i.last_op;
+
+  // Append any MPU exception to abort_op
+  // An abort_op_o = 1 will terminate a sequence, either to take an exception or debug due to trigger match.
+  assign abort_op_o = ex_wb_pipe_i.abort_op || ( ex_wb_pipe_i.lsu_en && lsu_exception);
 
   // Export signal indicating WB stage stalled by load/store
-  assign data_stall_o = ex_wb_pipe_i.lsu_en && !(lsu_valid_i && last_op_o) && instr_valid;
+  assign data_stall_o = ex_wb_pipe_i.lsu_en && !lsu_valid_i && instr_valid;
 
   //---------------------------------------------------------------------------
   // eXtension interface
@@ -169,6 +173,8 @@ module cv32e40s_wb_stage import cv32e40s_pkg::*;
   // Coprocessor signals a synchronous exception
   // TODO: Maybe do something when an exception occurs (other than just inhibiting writeback)
   assign xif_exception = ex_wb_pipe_i.instr_valid && ex_wb_pipe_i.xif_en && xif_result_if.result_valid && xif_result_if.result.exc;
+
+  // todo: Handle xif_result_if.result.err as NMI (do not factor into xif_exception as that signal is for synchronous exceptions)
 
   assign xif_result_if.result_ready = ex_wb_pipe_i.instr_valid && ex_wb_pipe_i.xif_en;
 
