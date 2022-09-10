@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.4.0.post284"
-version_tuple = (0, 4, 0, 284)
+version_str = "0.5.0.post187"
+version_tuple = (0, 5, 0, 187)
 try:
     from packaging.version import Version as V
-    pversion = V("0.4.0.post284")
+    pversion = V("0.5.0.post187")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.4.0.post142"
-data_version_tuple = (0, 4, 0, 142)
+data_version_str = "0.5.0.post45"
+data_version_tuple = (0, 5, 0, 45)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.4.0.post142")
+    pdata_version = V("0.5.0.post45")
 except ImportError:
     pass
-data_git_hash = "bbebeb502897b715bc5b84835dfeb4199ba79993"
-data_git_describe = "0.4.0-142-gbbebeb50"
+data_git_hash = "245213180e683e63ab1047e735f6574c35c888af"
+data_git_describe = "0.5.0-45-g24521318"
 data_git_msg = """\
-commit bbebeb502897b715bc5b84835dfeb4199ba79993
-Merge: ed92096c a7d4b796
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri Jul 29 12:18:17 2022 +0200
+commit 245213180e683e63ab1047e735f6574c35c888af
+Merge: ee43ee91 6d56c9ed
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Thu Sep 8 19:23:23 2022 +0200
 
-    Merge pull request #271 from Silabs-ArjanB/ArjanB_intgr1
+    Merge pull request #298 from silabs-oivind/merge_e40x
     
-    Added integrity and pcharden bits in cpuctrl CSR. Redefined integrity…
+    Merge e40x
 
 """
 
