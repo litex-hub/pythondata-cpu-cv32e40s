@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post187"
-version_tuple = (0, 5, 0, 187)
+version_str = "0.5.0.post190"
+version_tuple = (0, 5, 0, 190)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post187")
+    pversion = V("0.5.0.post190")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post45"
-data_version_tuple = (0, 5, 0, 45)
+data_version_str = "0.5.0.post48"
+data_version_tuple = (0, 5, 0, 48)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post45")
+    pdata_version = V("0.5.0.post48")
 except ImportError:
     pass
-data_git_hash = "245213180e683e63ab1047e735f6574c35c888af"
-data_git_describe = "0.5.0-45-g24521318"
+data_git_hash = "1144108c27a1bf0852c60959ea5004208af07628"
+data_git_describe = "0.5.0-48-g1144108c"
 data_git_msg = """\
-commit 245213180e683e63ab1047e735f6574c35c888af
-Merge: ee43ee91 6d56c9ed
-Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Thu Sep 8 19:23:23 2022 +0200
+commit 1144108c27a1bf0852c60959ea5004208af07628
+Merge: 24521318 afbc5016
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Wed Sep 14 15:05:50 2022 +0200
 
-    Merge pull request #298 from silabs-oivind/merge_e40x
+    Merge pull request #301 from silabs-oivind/fix_255_pmpaddr_n_rvfi
     
-    Merge e40x
+    Update for issue #255. Implement pmp_addr_n_r for RVFI.
 
 """
 
