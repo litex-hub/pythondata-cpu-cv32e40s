@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post190"
-version_tuple = (0, 5, 0, 190)
+version_str = "0.5.0.post194"
+version_tuple = (0, 5, 0, 194)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post190")
+    pversion = V("0.5.0.post194")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post48"
-data_version_tuple = (0, 5, 0, 48)
+data_version_str = "0.5.0.post52"
+data_version_tuple = (0, 5, 0, 52)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post48")
+    pdata_version = V("0.5.0.post52")
 except ImportError:
     pass
-data_git_hash = "1144108c27a1bf0852c60959ea5004208af07628"
-data_git_describe = "0.5.0-48-g1144108c"
+data_git_hash = "d115a782563527abe9cfd983bba4cfc65eae1893"
+data_git_describe = "0.5.0-52-gd115a782"
 data_git_msg = """\
-commit 1144108c27a1bf0852c60959ea5004208af07628
-Merge: 24521318 afbc5016
+commit d115a782563527abe9cfd983bba4cfc65eae1893
+Merge: 1144108c cb8181e0
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Wed Sep 14 15:05:50 2022 +0200
+Date:   Fri Sep 16 10:32:55 2022 +0200
 
-    Merge pull request #301 from silabs-oivind/fix_255_pmpaddr_n_rvfi
+    Merge pull request #303 from silabs-oivind/impl_pma_integrity_2
     
-    Update for issue #255. Implement pmp_addr_n_r for RVFI.
+    Implement PMA integrity
 
 """
 
