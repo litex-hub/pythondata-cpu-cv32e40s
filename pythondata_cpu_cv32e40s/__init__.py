@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post194"
-version_tuple = (0, 5, 0, 194)
+version_str = "0.5.0.post206"
+version_tuple = (0, 5, 0, 206)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post194")
+    pversion = V("0.5.0.post206")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post52"
-data_version_tuple = (0, 5, 0, 52)
+data_version_str = "0.5.0.post64"
+data_version_tuple = (0, 5, 0, 64)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post52")
+    pdata_version = V("0.5.0.post64")
 except ImportError:
     pass
-data_git_hash = "d115a782563527abe9cfd983bba4cfc65eae1893"
-data_git_describe = "0.5.0-52-gd115a782"
+data_git_hash = "2e7103847abc86f987dfa45aa5acacf7355ffc01"
+data_git_describe = "0.5.0-64-g2e710384"
 data_git_msg = """\
-commit d115a782563527abe9cfd983bba4cfc65eae1893
-Merge: 1144108c cb8181e0
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri Sep 16 10:32:55 2022 +0200
+commit 2e7103847abc86f987dfa45aa5acacf7355ffc01
+Merge: d115a782 b95ae092
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Wed Sep 21 14:51:07 2022 +0200
 
-    Merge pull request #303 from silabs-oivind/impl_pma_integrity_2
+    Merge pull request #304 from silabs-oysteink/silabs-oysteink_rchk_albuf
     
-    Implement PMA integrity
+    Instruction side integrity check
 
 """
 
