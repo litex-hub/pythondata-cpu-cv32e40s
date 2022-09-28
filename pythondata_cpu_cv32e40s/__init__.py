@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post208"
-version_tuple = (0, 5, 0, 208)
+version_str = "0.5.0.post213"
+version_tuple = (0, 5, 0, 213)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post208")
+    pversion = V("0.5.0.post213")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post66"
-data_version_tuple = (0, 5, 0, 66)
+data_version_str = "0.5.0.post71"
+data_version_tuple = (0, 5, 0, 71)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post66")
+    pdata_version = V("0.5.0.post71")
 except ImportError:
     pass
-data_git_hash = "7568910d50da36509677aad69e8c109aeb45ce73"
-data_git_describe = "0.5.0-66-g7568910d"
+data_git_hash = "582655667cfa68b830ba9a8e3e6caf7e35fcc76d"
+data_git_describe = "0.5.0-71-g58265566"
 data_git_msg = """\
-commit 7568910d50da36509677aad69e8c109aeb45ce73
-Merge: 2e710384 7e370cc9
+commit 582655667cfa68b830ba9a8e3e6caf7e35fcc76d
+Merge: 7568910d 611fa254
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Mon Sep 26 10:27:59 2022 +0200
+Date:   Wed Sep 28 10:30:53 2022 +0200
 
-    Merge pull request #306 from Silabs-ArjanB/ArjanB_cpuctrl1
+    Merge pull request #305 from silabs-oysteink/silabs-oysteink_lsu-integrity
     
-    Turned some security features to default on, changing the reset value…
+    Added LSU integrity checking.
 
 """
 
