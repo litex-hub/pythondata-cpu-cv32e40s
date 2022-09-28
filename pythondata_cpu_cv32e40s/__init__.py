@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post213"
-version_tuple = (0, 5, 0, 213)
+version_str = "0.5.0.post215"
+version_tuple = (0, 5, 0, 215)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post213")
+    pversion = V("0.5.0.post215")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post71"
-data_version_tuple = (0, 5, 0, 71)
+data_version_str = "0.5.0.post73"
+data_version_tuple = (0, 5, 0, 73)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post71")
+    pdata_version = V("0.5.0.post73")
 except ImportError:
     pass
-data_git_hash = "582655667cfa68b830ba9a8e3e6caf7e35fcc76d"
-data_git_describe = "0.5.0-71-g58265566"
+data_git_hash = "2178573acbaefa2330d24cdfe39657ec3b1dd3e3"
+data_git_describe = "0.5.0-73-g2178573a"
 data_git_msg = """\
-commit 582655667cfa68b830ba9a8e3e6caf7e35fcc76d
-Merge: 7568910d 611fa254
+commit 2178573acbaefa2330d24cdfe39657ec3b1dd3e3
+Merge: 58265566 eb9f0fd9
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Wed Sep 28 10:30:53 2022 +0200
+Date:   Wed Sep 28 12:25:53 2022 +0200
 
-    Merge pull request #305 from silabs-oysteink/silabs-oysteink_lsu-integrity
+    Merge pull request #308 from Silabs-ArjanB/ArjanB_rnddummyfreq
     
-    Added LSU integrity checking.
+    Fixed cpuctrl.rnddummyfreq description
 
 """
 
