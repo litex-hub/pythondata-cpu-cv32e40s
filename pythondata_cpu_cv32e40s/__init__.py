@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post239"
-version_tuple = (0, 5, 0, 239)
+version_str = "0.5.0.post244"
+version_tuple = (0, 5, 0, 244)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post239")
+    pversion = V("0.5.0.post244")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post97"
-data_version_tuple = (0, 5, 0, 97)
+data_version_str = "0.5.0.post102"
+data_version_tuple = (0, 5, 0, 102)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post97")
+    pdata_version = V("0.5.0.post102")
 except ImportError:
     pass
-data_git_hash = "7bc96f031a4661f9877619f74e2e1e932d85ede4"
-data_git_describe = "0.5.0-97-g7bc96f03"
+data_git_hash = "505a8b41389fbddf30c9c8c38ab215fb72537bf0"
+data_git_describe = "0.5.0-102-g505a8b41"
 data_git_msg = """\
-commit 7bc96f031a4661f9877619f74e2e1e932d85ede4
-Merge: 6c0bfb77 9f04d8ee
-Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Thu Sep 29 16:20:06 2022 +0200
+commit 505a8b41389fbddf30c9c8c38ab215fb72537bf0
+Merge: 7bc96f03 1932aeb9
+Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
+Date:   Thu Sep 29 17:27:23 2022 +0200
 
-    Merge pull request #311 from silabs-oysteink/silabs-oysteink_merge_w39-1
+    Merge pull request #310 from silabs-oysteink/silabs-oysteink_instr_lsu-fix
     
-    Merge from CV32E40X
+    Fixes for issue #307
 
 """
 
