@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post218"
-version_tuple = (0, 5, 0, 218)
+version_str = "0.5.0.post239"
+version_tuple = (0, 5, 0, 239)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post218")
+    pversion = V("0.5.0.post239")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post76"
-data_version_tuple = (0, 5, 0, 76)
+data_version_str = "0.5.0.post97"
+data_version_tuple = (0, 5, 0, 97)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post76")
+    pdata_version = V("0.5.0.post97")
 except ImportError:
     pass
-data_git_hash = "6c0bfb77384238f6e5166747c6c068776655caa7"
-data_git_describe = "0.5.0-76-g6c0bfb77"
+data_git_hash = "7bc96f031a4661f9877619f74e2e1e932d85ede4"
+data_git_describe = "0.5.0-97-g7bc96f03"
 data_git_msg = """\
-commit 6c0bfb77384238f6e5166747c6c068776655caa7
-Merge: 2178573a 01a501c6
-Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Thu Sep 29 12:41:38 2022 +0200
+commit 7bc96f031a4661f9877619f74e2e1e932d85ede4
+Merge: 6c0bfb77 9f04d8ee
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Thu Sep 29 16:20:06 2022 +0200
 
-    Merge pull request #309 from Silabs-ArjanB/ArjanB_ingr0
+    Merge pull request #311 from silabs-oysteink/silabs-oysteink_merge_w39-1
     
-    Redefined integrity check feature. Impact on major alert changed. Dep…
+    Merge from CV32E40X
 
 """
 
