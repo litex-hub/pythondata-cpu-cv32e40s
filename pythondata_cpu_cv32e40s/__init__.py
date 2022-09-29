@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post215"
-version_tuple = (0, 5, 0, 215)
+version_str = "0.5.0.post218"
+version_tuple = (0, 5, 0, 218)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post215")
+    pversion = V("0.5.0.post218")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post73"
-data_version_tuple = (0, 5, 0, 73)
+data_version_str = "0.5.0.post76"
+data_version_tuple = (0, 5, 0, 76)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post73")
+    pdata_version = V("0.5.0.post76")
 except ImportError:
     pass
-data_git_hash = "2178573acbaefa2330d24cdfe39657ec3b1dd3e3"
-data_git_describe = "0.5.0-73-g2178573a"
+data_git_hash = "6c0bfb77384238f6e5166747c6c068776655caa7"
+data_git_describe = "0.5.0-76-g6c0bfb77"
 data_git_msg = """\
-commit 2178573acbaefa2330d24cdfe39657ec3b1dd3e3
-Merge: 58265566 eb9f0fd9
+commit 6c0bfb77384238f6e5166747c6c068776655caa7
+Merge: 2178573a 01a501c6
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Wed Sep 28 12:25:53 2022 +0200
+Date:   Thu Sep 29 12:41:38 2022 +0200
 
-    Merge pull request #308 from Silabs-ArjanB/ArjanB_rnddummyfreq
+    Merge pull request #309 from Silabs-ArjanB/ArjanB_ingr0
     
-    Fixed cpuctrl.rnddummyfreq description
+    Redefined integrity check feature. Impact on major alert changed. Dep…
 
 """
 
