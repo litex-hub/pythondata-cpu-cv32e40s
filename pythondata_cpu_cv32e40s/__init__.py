@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post244"
-version_tuple = (0, 5, 0, 244)
+version_str = "0.5.0.post246"
+version_tuple = (0, 5, 0, 246)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post244")
+    pversion = V("0.5.0.post246")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post102"
-data_version_tuple = (0, 5, 0, 102)
+data_version_str = "0.5.0.post104"
+data_version_tuple = (0, 5, 0, 104)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post102")
+    pdata_version = V("0.5.0.post104")
 except ImportError:
     pass
-data_git_hash = "505a8b41389fbddf30c9c8c38ab215fb72537bf0"
-data_git_describe = "0.5.0-102-g505a8b41"
+data_git_hash = "ca96f5954096ffde5fcec4264f810da70364f74b"
+data_git_describe = "0.5.0-104-gca96f595"
 data_git_msg = """\
-commit 505a8b41389fbddf30c9c8c38ab215fb72537bf0
-Merge: 7bc96f03 1932aeb9
+commit ca96f5954096ffde5fcec4264f810da70364f74b
+Merge: 505a8b41 6033f829
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Thu Sep 29 17:27:23 2022 +0200
+Date:   Fri Sep 30 12:15:37 2022 +0200
 
-    Merge pull request #310 from silabs-oysteink/silabs-oysteink_instr_lsu-fix
+    Merge pull request #312 from Silabs-ArjanB/ArjanB_RMZC
     
-    Fixes for issue #307
+    Removed reference to unsupported Zcmb extension
 
 """
 
