@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post246"
-version_tuple = (0, 5, 0, 246)
+version_str = "0.5.0.post250"
+version_tuple = (0, 5, 0, 250)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post246")
+    pversion = V("0.5.0.post250")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post104"
-data_version_tuple = (0, 5, 0, 104)
+data_version_str = "0.5.0.post108"
+data_version_tuple = (0, 5, 0, 108)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post104")
+    pdata_version = V("0.5.0.post108")
 except ImportError:
     pass
-data_git_hash = "ca96f5954096ffde5fcec4264f810da70364f74b"
-data_git_describe = "0.5.0-104-gca96f595"
+data_git_hash = "7e310bd8ea7cf4852afe698190b4a28ce0fd9400"
+data_git_describe = "0.5.0-108-g7e310bd8"
 data_git_msg = """\
-commit ca96f5954096ffde5fcec4264f810da70364f74b
-Merge: 505a8b41 6033f829
-Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Fri Sep 30 12:15:37 2022 +0200
+commit 7e310bd8ea7cf4852afe698190b4a28ce0fd9400
+Merge: ca96f595 08ba4107
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Fri Sep 30 15:52:16 2022 +0200
 
-    Merge pull request #312 from Silabs-ArjanB/ArjanB_RMZC
+    Merge pull request #313 from silabs-oysteink/silabs-oysteink_obi-data-counter
     
-    Removed reference to unsupported Zcmb extension
+    Added separate OBI data interface counter for outstanding transaction.
 
 """
 
