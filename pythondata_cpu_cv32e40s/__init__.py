@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post250"
-version_tuple = (0, 5, 0, 250)
+version_str = "0.5.0.post252"
+version_tuple = (0, 5, 0, 252)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post250")
+    pversion = V("0.5.0.post252")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post108"
-data_version_tuple = (0, 5, 0, 108)
+data_version_str = "0.5.0.post110"
+data_version_tuple = (0, 5, 0, 110)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post108")
+    pdata_version = V("0.5.0.post110")
 except ImportError:
     pass
-data_git_hash = "7e310bd8ea7cf4852afe698190b4a28ce0fd9400"
-data_git_describe = "0.5.0-108-g7e310bd8"
+data_git_hash = "8816f407b153f4a68b696dda7bfb8cf9811d275b"
+data_git_describe = "0.5.0-110-g8816f407"
 data_git_msg = """\
-commit 7e310bd8ea7cf4852afe698190b4a28ce0fd9400
-Merge: ca96f595 08ba4107
+commit 8816f407b153f4a68b696dda7bfb8cf9811d275b
+Merge: 7e310bd8 9ddf5733
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri Sep 30 15:52:16 2022 +0200
+Date:   Tue Oct 4 07:46:41 2022 +0200
 
-    Merge pull request #313 from silabs-oysteink/silabs-oysteink_obi-data-counter
+    Merge pull request #315 from silabs-oivind/fix_issue_294
     
-    Added separate OBI data interface counter for outstanding transaction.
+    Update PMPnCFG WARL behaviour. Fix for issue #294
 
 """
 
