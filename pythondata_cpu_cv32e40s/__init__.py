@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post252"
-version_tuple = (0, 5, 0, 252)
+version_str = "0.5.0.post264"
+version_tuple = (0, 5, 0, 264)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post252")
+    pversion = V("0.5.0.post264")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post110"
-data_version_tuple = (0, 5, 0, 110)
+data_version_str = "0.5.0.post122"
+data_version_tuple = (0, 5, 0, 122)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post110")
+    pdata_version = V("0.5.0.post122")
 except ImportError:
     pass
-data_git_hash = "8816f407b153f4a68b696dda7bfb8cf9811d275b"
-data_git_describe = "0.5.0-110-g8816f407"
+data_git_hash = "736e1e4253b50ed550bf6adeebc6fd71cf19dca4"
+data_git_describe = "0.5.0-122-g736e1e42"
 data_git_msg = """\
-commit 8816f407b153f4a68b696dda7bfb8cf9811d275b
-Merge: 7e310bd8 9ddf5733
+commit 736e1e4253b50ed550bf6adeebc6fd71cf19dca4
+Merge: 8816f407 ebec85ec
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Oct 4 07:46:41 2022 +0200
+Date:   Tue Oct 4 10:13:19 2022 +0200
 
-    Merge pull request #315 from silabs-oivind/fix_issue_294
+    Merge pull request #316 from silabs-oysteink/silabs-oysteink_merge-w40-1
     
-    Update PMPnCFG WARL behaviour. Fix for issue #294
+    Merge from CV32E40X
 
 """
 
