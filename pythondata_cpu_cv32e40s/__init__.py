@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post274"
-version_tuple = (0, 5, 0, 274)
+version_str = "0.5.0.post276"
+version_tuple = (0, 5, 0, 276)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post274")
+    pversion = V("0.5.0.post276")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post132"
-data_version_tuple = (0, 5, 0, 132)
+data_version_str = "0.5.0.post134"
+data_version_tuple = (0, 5, 0, 134)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post132")
+    pdata_version = V("0.5.0.post134")
 except ImportError:
     pass
-data_git_hash = "d3b861cf7763e744c99da74178014db674b7d283"
-data_git_describe = "0.5.0-132-gd3b861cf"
+data_git_hash = "e4c027ec95a1bdc4cc6226acce27373d7eee7815"
+data_git_describe = "0.5.0-134-ge4c027ec"
 data_git_msg = """\
-commit d3b861cf7763e744c99da74178014db674b7d283
-Merge: 4f08c049 1d115f01
+commit e4c027ec95a1bdc4cc6226acce27373d7eee7815
+Merge: d3b861cf 92cceeb5
 Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Thu Oct 6 15:08:21 2022 +0200
+Date:   Mon Oct 10 13:31:51 2022 +0200
 
-    Merge pull request #319 from Silabs-ArjanB/ArjanB_pcs
+    Merge pull request #321 from silabs-oivind/master
     
-    Simplified meaning of debug_pc_* interface
+    Add missing LIB parameter for CSR
 
 """
 
