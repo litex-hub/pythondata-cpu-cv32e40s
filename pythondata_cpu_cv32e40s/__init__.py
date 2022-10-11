@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post276"
-version_tuple = (0, 5, 0, 276)
+version_str = "0.5.0.post279"
+version_tuple = (0, 5, 0, 279)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post276")
+    pversion = V("0.5.0.post279")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post134"
-data_version_tuple = (0, 5, 0, 134)
+data_version_str = "0.5.0.post137"
+data_version_tuple = (0, 5, 0, 137)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post134")
+    pdata_version = V("0.5.0.post137")
 except ImportError:
     pass
-data_git_hash = "e4c027ec95a1bdc4cc6226acce27373d7eee7815"
-data_git_describe = "0.5.0-134-ge4c027ec"
+data_git_hash = "83962afe4fee3d36be396c88e192aa89510f6a81"
+data_git_describe = "0.5.0-137-g83962afe"
 data_git_msg = """\
-commit e4c027ec95a1bdc4cc6226acce27373d7eee7815
-Merge: d3b861cf 92cceeb5
-Author: silabs-oysteink <66771756+silabs-oysteink@users.noreply.github.com>
-Date:   Mon Oct 10 13:31:51 2022 +0200
+commit 83962afe4fee3d36be396c88e192aa89510f6a81
+Merge: e4c027ec 8b75a1df
+Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
+Date:   Tue Oct 11 10:32:10 2022 +0200
 
-    Merge pull request #321 from silabs-oivind/master
+    Merge pull request #322 from silabs-oysteink/dummy-instr-fixes
     
-    Add missing LIB parameter for CSR
+    Dummy instruction fixes
 
 """
 
