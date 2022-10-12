@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.5.0.post279"
-version_tuple = (0, 5, 0, 279)
+version_str = "0.5.0.post283"
+version_tuple = (0, 5, 0, 283)
 try:
     from packaging.version import Version as V
-    pversion = V("0.5.0.post279")
+    pversion = V("0.5.0.post283")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.5.0.post137"
-data_version_tuple = (0, 5, 0, 137)
+data_version_str = "0.5.0.post141"
+data_version_tuple = (0, 5, 0, 141)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.5.0.post137")
+    pdata_version = V("0.5.0.post141")
 except ImportError:
     pass
-data_git_hash = "83962afe4fee3d36be396c88e192aa89510f6a81"
-data_git_describe = "0.5.0-137-g83962afe"
+data_git_hash = "0ac403b719ebb5096a34a82425caae7d0ac71303"
+data_git_describe = "0.5.0-141-g0ac403b7"
 data_git_msg = """\
-commit 83962afe4fee3d36be396c88e192aa89510f6a81
-Merge: e4c027ec 8b75a1df
+commit 0ac403b719ebb5096a34a82425caae7d0ac71303
+Merge: 83962afe fbe3a8f7
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Oct 11 10:32:10 2022 +0200
+Date:   Wed Oct 12 08:51:52 2022 +0200
 
-    Merge pull request #322 from silabs-oysteink/dummy-instr-fixes
+    Merge pull request #323 from silabs-oysteink/random-hint
     
-    Dummy instruction fixes
+    Implemented random hint instructions
 
 """
 
