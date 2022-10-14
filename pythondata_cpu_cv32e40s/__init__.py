@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.6.0.post142"
-version_tuple = (0, 6, 0, 142)
+version_str = "0.6.0.post144"
+version_tuple = (0, 6, 0, 144)
 try:
     from packaging.version import Version as V
-    pversion = V("0.6.0.post142")
+    pversion = V("0.6.0.post144")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.6.0.post0"
-data_version_tuple = (0, 6, 0, 0)
+data_version_str = "0.6.0.post2"
+data_version_tuple = (0, 6, 0, 2)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.6.0.post0")
+    pdata_version = V("0.6.0.post2")
 except ImportError:
     pass
-data_git_hash = "3462ed208034635ac81cfffe6dd616c3fc4c196a"
-data_git_describe = "0.6.0-0-g3462ed20"
+data_git_hash = "297083642dead29d855fdd53e03ada1875ff17cb"
+data_git_describe = "0.6.0-2-g29708364"
 data_git_msg = """\
-commit 3462ed208034635ac81cfffe6dd616c3fc4c196a
-Merge: 0ac403b7 5a41c42b
+commit 297083642dead29d855fdd53e03ada1875ff17cb
+Merge: 3462ed20 f8715717
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Wed Oct 12 09:52:11 2022 +0200
+Date:   Fri Oct 14 15:28:55 2022 +0200
 
-    Merge pull request #324 from silabs-oysteink/silabs-oysteink_merge-w41
+    Merge pull request #325 from silabs-oivind/doc_pmp_warl
     
-    Merge from CV32E40X
+    Add notes about PMPCFG and PMPADDR in user manual
 
 """
 
