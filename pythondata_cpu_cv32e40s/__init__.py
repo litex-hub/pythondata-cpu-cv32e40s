@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.6.0.post144"
-version_tuple = (0, 6, 0, 144)
+version_str = "0.6.0.post146"
+version_tuple = (0, 6, 0, 146)
 try:
     from packaging.version import Version as V
-    pversion = V("0.6.0.post144")
+    pversion = V("0.6.0.post146")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.6.0.post2"
-data_version_tuple = (0, 6, 0, 2)
+data_version_str = "0.6.0.post4"
+data_version_tuple = (0, 6, 0, 4)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.6.0.post2")
+    pdata_version = V("0.6.0.post4")
 except ImportError:
     pass
-data_git_hash = "297083642dead29d855fdd53e03ada1875ff17cb"
-data_git_describe = "0.6.0-2-g29708364"
+data_git_hash = "51abba01b0145d741c7e635602968026aafc51db"
+data_git_describe = "0.6.0-4-g51abba01"
 data_git_msg = """\
-commit 297083642dead29d855fdd53e03ada1875ff17cb
-Merge: 3462ed20 f8715717
+commit 51abba01b0145d741c7e635602968026aafc51db
+Merge: 29708364 e913b1a1
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Fri Oct 14 15:28:55 2022 +0200
+Date:   Tue Oct 18 08:10:21 2022 +0200
 
-    Merge pull request #325 from silabs-oivind/doc_pmp_warl
+    Merge pull request #326 from silabs-oivind/lsu_priv_lvl_prot
     
-    Add notes about PMPCFG and PMPADDR in user manual
+    Set correct priv level for LSU obi.prot
 
 """
 
