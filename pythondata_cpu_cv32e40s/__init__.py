@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.6.0.post146"
-version_tuple = (0, 6, 0, 146)
+version_str = "0.6.0.post155"
+version_tuple = (0, 6, 0, 155)
 try:
     from packaging.version import Version as V
-    pversion = V("0.6.0.post146")
+    pversion = V("0.6.0.post155")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.6.0.post4"
-data_version_tuple = (0, 6, 0, 4)
+data_version_str = "0.6.0.post13"
+data_version_tuple = (0, 6, 0, 13)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.6.0.post4")
+    pdata_version = V("0.6.0.post13")
 except ImportError:
     pass
-data_git_hash = "51abba01b0145d741c7e635602968026aafc51db"
-data_git_describe = "0.6.0-4-g51abba01"
+data_git_hash = "020677aaf6dec3fb04e13cee9dbb0679d8e5ab15"
+data_git_describe = "0.6.0-13-g020677aa"
 data_git_msg = """\
-commit 51abba01b0145d741c7e635602968026aafc51db
-Merge: 29708364 e913b1a1
+commit 020677aaf6dec3fb04e13cee9dbb0679d8e5ab15
+Merge: 51abba01 40f30d2f
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Tue Oct 18 08:10:21 2022 +0200
+Date:   Wed Oct 19 08:41:04 2022 +0200
 
-    Merge pull request #326 from silabs-oivind/lsu_priv_lvl_prot
+    Merge pull request #328 from silabs-oysteink/silabs-oysteink_merge-w42-1
     
-    Set correct priv level for LSU obi.prot
+    Merge from CV32E40X.
 
 """
 
