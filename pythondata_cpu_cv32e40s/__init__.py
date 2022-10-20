@@ -4,33 +4,33 @@ data_location = os.path.join(__dir__, "system_verilog")
 src = "https://github.com/openhwgroup/cv32e40s"
 
 # Module version
-version_str = "0.6.0.post157"
-version_tuple = (0, 6, 0, 157)
+version_str = "0.6.0.post161"
+version_tuple = (0, 6, 0, 161)
 try:
     from packaging.version import Version as V
-    pversion = V("0.6.0.post157")
+    pversion = V("0.6.0.post161")
 except ImportError:
     pass
 
 # Data version info
-data_version_str = "0.6.0.post15"
-data_version_tuple = (0, 6, 0, 15)
+data_version_str = "0.6.0.post19"
+data_version_tuple = (0, 6, 0, 19)
 try:
     from packaging.version import Version as V
-    pdata_version = V("0.6.0.post15")
+    pdata_version = V("0.6.0.post19")
 except ImportError:
     pass
-data_git_hash = "d6f68a6a7e2005a4968d1c9ade5d8b2416eafd7d"
-data_git_describe = "0.6.0-15-gd6f68a6a"
+data_git_hash = "2878f7cba028fb201f4a84bc1feea5059813d503"
+data_git_describe = "0.6.0-19-g2878f7cb"
 data_git_msg = """\
-commit d6f68a6a7e2005a4968d1c9ade5d8b2416eafd7d
-Merge: 020677aa 836dac1b
+commit 2878f7cba028fb201f4a84bc1feea5059813d503
+Merge: d6f68a6a 3fd58d5b
 Author: Arjan Bink <40633348+Silabs-ArjanB@users.noreply.github.com>
-Date:   Wed Oct 19 15:46:53 2022 +0200
+Date:   Thu Oct 20 09:59:11 2022 +0200
 
-    Merge pull request #329 from silabs-oivind/issue_227_assertion
+    Merge pull request #330 from silabs-oivind/merge_cv32e40x
     
-    Add assertion for issue #277. mstatus.mprv is cleared when entering u…
+    Merge cv32e40x
 
 """
 
